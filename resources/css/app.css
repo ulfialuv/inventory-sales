@@ -1,0 +1,284 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================
+   INVENTORY & SALES MANAGEMENT
+   Modern Business UI
+========================================= */
+
+:root {
+    --app-primary: #3157d5;
+    --app-primary-dark: #2445b7;
+    --app-bg: #f5f7fb;
+    --app-surface: #ffffff;
+    --app-text: #172033;
+    --app-muted: #788397;
+    --app-border: #e6eaf1;
+    --app-success: #138a60;
+    --app-danger: #d94343;
+    --app-radius: 16px;
+    --app-shadow: 0 4px 18px rgba(23, 32, 51, 0.045);
+}
+
+/* Dasar halaman */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--app-bg);
+    color: var(--app-text);
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Judul */
+h1,
+h2,
+h3,
+h4 {
+    color: var(--app-text);
+    letter-spacing: -0.035em;
+    font-weight: 700;
+}
+
+/* Link */
+a {
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+/* Panel dan kartu */
+.app-card,
+.dashboard-card,
+.stat-card,
+.content-card {
+    background: var(--app-surface);
+    border: 1px solid var(--app-border);
+    border-radius: var(--app-radius);
+    box-shadow: var(--app-shadow);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.app-card:hover,
+.dashboard-card:hover,
+.stat-card:hover {
+    box-shadow: 0 8px 26px rgba(23, 32, 51, 0.07);
+}
+
+/* Tombol */
+button,
+.btn {
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid rgba(49, 87, 213, 0.22);
+    outline-offset: 2px;
+}
+
+/* Tombol utama */
+.btn-primary {
+    background: var(--app-primary);
+    color: #ffffff;
+    border: 1px solid var(--app-primary);
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background: var(--app-primary-dark);
+    box-shadow: 0 5px 14px rgba(49, 87, 213, 0.2);
+}
+
+/* Input dan dropdown */
+input,
+select,
+textarea {
+    border-color: var(--app-border);
+}
+
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+    border-radius: 10px;
+}
+
+input:not([type="checkbox"]):not([type="radio"]):focus,
+select:focus,
+textarea:focus {
+    border-color: var(--app-primary);
+    box-shadow: 0 0 0 3px rgba(49, 87, 213, 0.09);
+}
+
+/* Tabel data */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+thead th {
+    background: #f8f9fc;
+    color: #68748a;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.045em;
+    text-transform: uppercase;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--app-border);
+    white-space: nowrap;
+}
+
+tbody td {
+    padding: 15px 18px;
+    border-bottom: 1px solid #edf0f5;
+    color: #465166;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+tbody tr:hover {
+    background: #f8faff;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Label status */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.status-success {
+    color: #08764d;
+    background: #e4f7ee;
+}
+
+.status-pending {
+    color: #9a6500;
+    background: #fff4d7;
+}
+
+.status-danger {
+    color: #b42323;
+    background: #ffebeb;
+}
+
+.status-info {
+    color: #2851bf;
+    background: #eaf0ff;
+}
+
+/* Pesan validasi */
+.text-red-600,
+.text-red-500 {
+    color: #d94343;
+}
+
+.text-green-600 {
+    color: var(--app-success);
+}
+
+/* Pagination */
+nav[role="navigation"] a,
+nav[role="navigation"] span {
+    border-radius: 8px;
+}
+
+/* Gambar produk */
+.product-image {
+    width: 52px;
+    height: 52px;
+    object-fit: cover;
+    border-radius: 10px;
+    background: #f0f3f8;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd3e1;
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #aab5c8;
+}
+
+/* Tampilan laptop kecil dan tablet */
+@media (max-width: 1024px) {
+    thead th,
+    tbody td {
+        padding: 12px;
+    }
+
+    .app-card,
+    .dashboard-card,
+    .stat-card,
+    .content-card {
+        border-radius: 12px;
+    }
+}
+
+/* Tampilan HP */
+@media (max-width: 640px) {
+    body {
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    .app-card,
+    .dashboard-card,
+    .stat-card,
+    .content-card {
+        padding: 14px;
+    }
+
+    thead th,
+    tbody td {
+        padding: 10px;
+        font-size: 12px;
+    }
+
+    button,
+    .btn {
+        max-width: 100%;
+    }
+}
