@@ -3,384 +3,821 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pesanan Saya - Inventory Sales</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <title>Pesanan Saya | Inventory Sales</title>
 
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { box-sizing: border-box; }
 
         :root {
-            --green: #244b3b;
-            --sage: #e8f0e8;
-            --cream: #f8f8f1;
-            --text: #29382f;
-            --muted: #7b867d;
-            --border: #e7ece5;
-            --red: #c95656;
+            --maroon: #54232b;
+            --maroon-light: #78404a;
+            --gold: #b99556;
+            --gold-light: #f1e6d7;
+            --background: #f7f3ed;
+            --white: #fffdf9;
+            --text: #302526;
+            --muted: #8a7d79;
+            --border: #ece2d7;
+            --green: #346441;
+            --red: #a33333;
+            --blue: #315c86;
         }
 
         body {
-            font-family: 'Nunito', sans-serif;
-            background: var(--cream);
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: var(--background);
             color: var(--text);
-            min-height: 100vh;
-            line-height: 1.6;
         }
 
-        a { text-decoration: none; }
+        a { color: inherit; text-decoration: none; }
         button, input { font: inherit; }
 
-        .navbar { background: var(--green); padding: 14px 5%; }
-
-        .navbar-inner {
-            max-width: 1050px;
-            margin: auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .brand { color: white; font-size: 20px; font-weight: 900; }
-        .brand small { display: block; color: #d5e5d8; font-size: 11px; font-weight: 600; }
-        .container { width: min(1050px, 92%); margin: 28px auto 40px; }
-
-        .heading {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 22px;
-        }
-
-        h1 { color: var(--green); font-size: 26px; font-weight: 900; }
-        .subtitle { color: var(--muted); font-size: 13px; margin-top: 3px; }
-
-        .btn {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            padding: 9px 14px;
-            border: 0;
-            border-radius: 10px;
-            background: var(--green);
+        .sidebar {
+            position: fixed;
+            inset: 0 auto 0 0;
+            width: 225px;
+            padding: 28px 18px;
+            background: var(--maroon);
             color: white;
-            font-size: 12px;
-            font-weight: 800;
+            z-index: 10;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            margin-bottom: 36px;
+        }
+
+        .brand-icon {
+            display: grid;
+            place-items: center;
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+            border-radius: 12px;
+            background: var(--gold);
+            color: var(--maroon);
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .brand h2 { margin: 0; font-size: 17px; }
+        .brand small { color: #d9c5c1; font-size: 11px; }
+
+        .nav-title {
+            margin: 24px 10px 10px;
+            color: #c6a9a7;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            margin-bottom: 5px;
+            border-radius: 9px;
+            color: #f2e8e5;
+            font-size: 13px;
+            transition: background .2s;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active { background: var(--maroon-light); }
+
+        .nav-icon {
+            width: 20px;
+            flex-shrink: 0;
+            text-align: center;
+        }
+
+        .logout {
+            position: absolute;
+            right: 18px;
+            bottom: 22px;
+            left: 18px;
+        }
+
+        .logout button {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #80525a;
+            border-radius: 9px;
+            background: transparent;
+            color: white;
             cursor: pointer;
         }
 
-        .btn:hover { filter: brightness(1.1); }
-        .btn-light { background: white; color: var(--green); border: 1px solid var(--border); }
-        .btn-red { background: #fff0ee; color: var(--red); }
+        .logout button:hover { background: var(--maroon-light); }
 
-        .notice { padding: 12px 15px; border-radius: 10px; margin-bottom: 14px; font-size: 13px; }
-        .success { background: #e6f5e8; color: #28663c; border: 1px solid #cce9d1; }
-        .error { background: #fff0ee; color: #a43d3d; border: 1px solid #f5d5d1; }
+        .main {
+            max-width: 1600px;
+            margin-left: 225px;
+            padding: 30px 34px;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+
+        .eyebrow {
+            color: #9b7a48;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 7px 0;
+            color: var(--maroon);
+            font-family: Georgia, serif;
+            font-size: 30px;
+            font-weight: normal;
+        }
+
+        .muted {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 13px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--white);
+        }
+
+        .avatar {
+            display: grid;
+            place-items: center;
+            width: 38px;
+            height: 38px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: var(--gold-light);
+            color: var(--maroon);
+            font-weight: bold;
+        }
+
+        .user-chip strong { display: block; font-size: 12px; }
+        .user-chip small { color: var(--muted); font-size: 11px; }
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin: 28px 0 15px;
+        }
+
+        .section-heading h2 {
+            margin: 0;
+            color: var(--maroon);
+            font-family: Georgia, serif;
+            font-size: 21px;
+            font-weight: normal;
+        }
+
+        .section-heading p {
+            margin: 5px 0 0;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 11px 16px;
+            border: none;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: background .2s;
+        }
+
+        .btn-primary { background: var(--maroon); color: white; }
+        .btn-primary:hover { background: var(--maroon-light); }
+        .btn-gold { background: var(--gold-light); color: var(--maroon); }
+        .btn-gold:hover { background: #e9d7bc; }
+        .btn-red { border: 1px solid #e8caca; background: #fff0f0; color: var(--red); }
+        .btn-red:hover { background: #f9dfdf; }
+        .btn-green { background: #e4f1e5; color: var(--green); }
+        .btn-green:hover { background: #d1e8d4; }
+        .btn:disabled { opacity: .6; cursor: not-allowed; }
+
+        .alert {
+            padding: 13px 16px;
+            margin-bottom: 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .alert-success { border: 1px solid #c8dfcb; background: #edf7ee; color: var(--green); }
+        .alert-error { border: 1px solid #e8caca; background: #fff0f0; color: var(--red); }
+        .alert ul { margin: 7px 0 0; padding-left: 20px; }
 
         .order-card {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            margin-bottom: 17px;
+            margin-bottom: 20px;
             overflow: hidden;
-            box-shadow: 0 4px 16px #294b350b;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            background: var(--white);
+            transition: box-shadow .2s;
         }
+
+        .order-card:hover { box-shadow: 0 8px 22px rgba(84, 35, 43, .07); }
 
         .order-header {
-            padding: 16px 19px;
-            background: #f1f6ef;
-            border-bottom: 1px solid var(--border);
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            gap: 12px;
+            justify-content: space-between;
+            gap: 15px;
             flex-wrap: wrap;
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--border);
+            background: #f4ece4;
         }
 
-        .invoice { color: var(--green); font-size: 14px; font-weight: 900; overflow-wrap: anywhere; }
-        .muted { color: var(--muted); font-size: 11px; margin-top: 3px; }
-        .statuses { display: flex; flex-wrap: wrap; gap: 6px; }
+        .invoice {
+            color: var(--maroon);
+            font-size: 13px;
+            font-weight: 800;
+            overflow-wrap: anywhere;
+        }
+
+        .order-date { margin-top: 4px; color: var(--muted); font-size: 11px; }
+
+        .statuses { display: flex; flex-wrap: wrap; gap: 7px; }
 
         .badge {
             display: inline-block;
-            padding: 5px 9px;
+            padding: 6px 10px;
             border-radius: 20px;
-            background: var(--sage);
-            color: var(--green);
+            background: var(--gold-light);
+            color: var(--maroon);
             font-size: 10px;
-            font-weight: 800;
+            font-weight: 700;
         }
 
-        .order-body { padding: 18px 19px; }
-        h3 { color: var(--green); font-size: 14px; font-weight: 900; margin-bottom: 9px; }
+        .badge-green { background: #e4f1e5; color: var(--green); }
+        .badge-red { background: #fff0f0; color: var(--red); }
+        .badge-blue { background: #e8f0f8; color: var(--blue); }
+
+        .order-body { padding: 20px; }
+
+        .order-body h3 {
+            margin: 0 0 12px;
+            color: var(--maroon);
+            font-family: Georgia, serif;
+            font-size: 17px;
+            font-weight: normal;
+        }
 
         .item {
             display: flex;
-            justify-content: space-between;
             align-items: flex-start;
-            gap: 12px;
-            padding: 11px 0;
-            border-bottom: 1px solid #edf0eb;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 13px 0;
+            border-bottom: 1px solid #f0e8df;
         }
 
-        .item-name { font-size: 12px; font-weight: 800; }
-        .item-price { color: var(--green); font-size: 12px; font-weight: 900; text-align: right; }
+        .item-name { color: var(--text); font-size: 12px; font-weight: 700; overflow-wrap: anywhere; }
+        .item-quantity { margin-top: 4px; color: var(--muted); font-size: 11px; }
+        .item-price { color: var(--maroon); font-size: 12px; font-weight: 800; text-align: right; white-space: nowrap; }
 
         .total {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            gap: 10px;
-            padding: 13px;
-            margin-top: 13px;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 16px;
+            margin-top: 15px;
             border-radius: 10px;
-            background: var(--sage);
+            background: var(--gold-light);
         }
 
-        .total span { font-size: 12px; font-weight: 800; }
-        .total strong { color: var(--green); font-size: 17px; text-align: right; overflow-wrap: anywhere; }
+        .total span { color: var(--maroon); font-size: 12px; font-weight: 700; }
+        .total strong {
+            color: var(--maroon);
+            font-family: Georgia, serif;
+            font-size: 21px;
+            text-align: right;
+            overflow-wrap: anywhere;
+        }
 
-        .details { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+        .details {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
 
-        .detail-box { padding: 11px; border: 1px solid var(--border); border-radius: 10px; overflow-wrap: anywhere; }
-        .detail-label { color: var(--muted); font-size: 10px; margin-bottom: 3px; }
-        .detail-value { font-size: 12px; font-weight: 700; }
+        .detail-box {
+            min-width: 0;
+            padding: 13px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #fffefa;
+            overflow-wrap: anywhere;
+        }
 
-        .upload { margin-top: 14px; padding: 14px; border: 1px solid var(--border); border-radius: 11px; background: #f8faf6; }
-        .upload p { color: var(--muted); font-size: 11px; margin-bottom: 8px; }
+        .detail-label { margin-bottom: 5px; color: var(--muted); font-size: 11px; }
+        .detail-value { color: var(--text); font-size: 12px; font-weight: 600; }
+
+        .upload {
+            padding: 17px;
+            margin-top: 17px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            background: #faf6f0;
+        }
+
+        .upload h3 { margin-bottom: 5px; }
+
+        .upload p {
+            margin-bottom: 10px;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.7;
+        }
 
         input[type="file"] {
             display: block;
             width: 100%;
-            padding: 9px;
-            margin: 9px 0;
+            padding: 10px;
+            margin: 10px 0;
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 9px;
             background: white;
             font-size: 11px;
         }
 
-        .proof-status { color: #28663c; font-size: 11px; margin: 7px 0; }
-        .order-actions { margin-top: 15px; padding-top: 13px; border-top: 1px solid var(--border); }
+        .proof-status {
+            padding: 10px 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            background: #edf7ee;
+            color: var(--green);
+            font-size: 11px;
+            line-height: 1.7;
+        }
 
-        .cancelled { margin-top: 13px; padding: 11px; border-radius: 9px; background: #f3f4f0; color: var(--muted); font-size: 11px; }
+        .info-note {
+            padding: 13px;
+            margin-top: 15px;
+            border-radius: 9px;
+            background: #f4ece4;
+            color: var(--maroon);
+            font-size: 11px;
+            line-height: 1.8;
+        }
 
-        .empty {
-            padding: 40px 18px;
+        .order-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding-top: 16px;
+            margin-top: 17px;
+            border-top: 1px solid var(--border);
+        }
+
+        .cancelled {
+            padding: 13px;
+            margin-top: 15px;
+            border-radius: 9px;
+            background: #f3eee8;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.7;
+        }
+
+        .empty-state {
+            padding: 45px 20px;
+            border: 1px dashed #d9c8b4;
+            border-radius: 13px;
+            background: var(--white);
             text-align: center;
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 16px;
         }
 
         .empty-icon {
-            width: 65px;
-            height: 65px;
-            margin: 0 auto 13px;
             display: grid;
             place-items: center;
-            border-radius: 20px;
-            background: var(--sage);
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 15px;
+            border-radius: 18px;
+            background: var(--gold-light);
+            color: var(--maroon);
             font-size: 29px;
         }
 
-        .empty h2 { color: var(--green); font-size: 19px; margin-bottom: 6px; }
-        .empty p { color: var(--muted); font-size: 12px; margin-bottom: 15px; }
+        .empty-state h3 {
+            margin: 0 0 8px;
+            color: var(--maroon);
+            font-family: Georgia, serif;
+            font-size: 21px;
+            font-weight: normal;
+        }
 
-        /* Pagination: hilangkan tombol panah dan teks informasi */
+        .empty-state p {
+            margin: 0 0 18px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
         .pagination { margin-top: 20px; }
-        .pagination nav > div:first-child { display: none !important; }
-        .pagination nav svg { display: none !important; }
+        .footer { padding: 25px 0 5px; color: #9a8d86; text-align: center; font-size: 11px; }
 
-        .pagination nav a,
-        .pagination nav button {
-            font-size: 0 !important;
+        @media (max-width: 800px) {
+            .sidebar { position: static; width: 100%; height: auto; }
+            .logout { position: static; margin-top: 15px; }
+            .main { margin-left: 0; padding: 20px; }
         }
 
-        .pagination nav a[aria-label*="Previous"],
-        .pagination nav a[aria-label*="Next"],
-        .pagination nav button[aria-label*="Previous"],
-        .pagination nav button[aria-label*="Next"],
-        .pagination nav a[aria-label*="previous"],
-        .pagination nav a[aria-label*="next"],
-        .pagination nav button[aria-label*="previous"],
-        .pagination nav button[aria-label*="next"] {
-            display: none !important;
-        }
-
-        .pagination nav > div:last-child {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-
-        .pagination nav a,
-        .pagination nav span[aria-current="page"] span {
-            min-width: 32px;
-            height: 32px;
-            padding: 5px 10px;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            background: white;
-            color: var(--green);
-            font-size: 12px !important;
-        }
-
-        .pagination nav span[aria-current="page"] span {
-            background: var(--green);
-            border-color: var(--green);
-            color: white;
-        }
-
-        .pagination nav a:hover { background: var(--sage); }
-        footer { padding: 20px 12px; color: var(--muted); text-align: center; font-size: 11px; }
-
-        @media (max-width: 600px) {
-            .navbar { padding: 13px 4%; }
-            .brand { font-size: 18px; }
-            .container { margin-top: 22px; }
-            h1 { font-size: 22px; }
-            .heading > .btn { width: 100%; }
-            .order-header, .order-body { padding: 14px; }
+        @media (max-width: 550px) {
+            .topbar { align-items: flex-start; flex-direction: column; }
+            .section-heading { align-items: flex-start; flex-direction: column; }
             .details { grid-template-columns: 1fr; }
-            .order-actions .btn { width: 100%; }
-            .total strong { font-size: 15px; }
+            .statuses { align-items: flex-start; flex-direction: column; }
+            .order-header, .order-body { padding: 15px; }
+            .order-actions .btn, .upload form .btn { width: 100%; }
+            .total strong { font-size: 17px; }
+            h1 { font-size: 26px; }
         }
     </style>
 </head>
 
 <body>
-    <header class="navbar">
-        <div class="navbar-inner">
-            <a href="{{ route('user.dashboard') }}" class="brand">
-                🌿 Inventory Sales
-                <small>Belanja dan pantau pesananmu</small>
-            </a>
-            <a href="{{ route('user.dashboard') }}" class="btn btn-light">← Kembali Belanja</a>
-        </div>
-    </header>
 
-    <main class="container">
-        <div class="heading">
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">I</div>
             <div>
-                <h1>Pesanan Saya 📦</h1>
-                <p class="subtitle">Pantau status dan rincian pesananmu di sini.</p>
+                <h2>Inventory Sales</h2>
+                <small>Customer Portal</small>
             </div>
-            <a href="{{ route('user.dashboard') }}" class="btn">+ Belanja Lagi</a>
         </div>
+
+        <div class="nav-title">MENU UTAMA</div>
+
+        <a href="{{ route('user.dashboard') }}">
+            <span class="nav-icon">⌂</span>
+            Beranda
+        </a>
+
+        <a href="{{ route('cart.index') }}">
+            <span class="nav-icon">🛒</span>
+            Keranjang
+        </a>
+
+        <a href="{{ route('user.orders') }}" class="active">
+            <span class="nav-icon">▤</span>
+            Pesanan Saya
+        </a>
+
+        <div class="nav-title">AKUN</div>
+
+        <form class="logout" method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit">↪ &nbsp; Keluar dari akun</button>
+        </form>
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+            <div>
+                <div class="eyebrow">Inventory Sales</div>
+                <h1>Pesanan Saya</h1>
+                <div class="muted">
+                    Pantau status pembayaran dan rincian pesananmu.
+                </div>
+            </div>
+
+            <div class="user-chip">
+                <div class="avatar">
+                    {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 1)) }}
+                </div>
+                <div>
+                    <strong>{{ auth()->user()->name ?? 'Pelanggan' }}</strong>
+                    <small>Pelanggan</small>
+                </div>
+            </div>
+        </header>
 
         @if (session('success'))
-            <div class="notice success">{{ session('success') }}</div>
+            <div class="alert alert-success">
+                ✓ {{ session('success') }}
+            </div>
         @endif
 
         @if (session('error'))
-            <div class="notice error">{{ session('error') }}</div>
-        @endif
-
-        @if ($errors->any())
-            <div class="notice error">
-                @foreach ($errors->all() as $error)
-                    <div>{{ $error }}</div>
-                @endforeach
+            <div class="alert alert-error">
+                {{ session('error') }}
             </div>
         @endif
 
+        @if ($errors->any())
+            <div class="alert alert-error">
+                <strong>Ada yang perlu diperbaiki:</strong>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <section class="section-heading">
+            <div>
+                <h2>Daftar Pesanan 📦</h2>
+                <p>Semua pesanan yang kamu buat akan ditampilkan di sini.</p>
+            </div>
+
+            <a href="{{ route('user.dashboard') }}" class="btn btn-primary">
+                + Belanja Lagi
+            </a>
+        </section>
+
         @forelse ($orders as $order)
+
+            @php
+                $orderStatus = $order->order_status ?? 'pending';
+                $paymentStatus = $order->payment_status ?? 'pending';
+                $paymentMethod = $order->payment_method ?? 'cash';
+
+                $orderLabels = [
+                    'pending' => 'Menunggu Diproses',
+                    'processing' => 'Sedang Diproses',
+                    'shipped' => 'Dalam Pengiriman',
+                    'received' => 'Barang Diterima',
+                    'completed' => 'Selesai',
+                    'cancelled' => 'Dibatalkan',
+                ];
+
+                $paymentLabels = [
+                    'pending' => 'Menunggu Pembayaran',
+                    'waiting_confirmation' => 'Menunggu Konfirmasi',
+                    'paid' => 'Lunas',
+                ];
+
+                $paymentMethodLabels = [
+                    'cash' => 'Tunai',
+                    'cod' => 'COD (Bayar Saat Diterima)',
+                    'transfer' => 'Transfer Bank',
+                    'qris' => 'QRIS',
+                    'ewallet' => 'E-Wallet',
+                ];
+
+                $requiresProof = in_array($paymentMethod, ['transfer', 'qris', 'ewallet']);
+                $canUploadProof = $requiresProof
+                    && $orderStatus === 'pending'
+                    && $paymentStatus !== 'paid';
+                $canCancel = $orderStatus === 'pending'
+                    && $paymentStatus !== 'paid';
+            @endphp
+
             <article class="order-card">
+
                 <div class="order-header">
                     <div>
                         <div class="invoice">{{ $order->invoice_number }}</div>
-                        <div class="muted">Tanggal: {{ $order->sale_date }}</div>
+                        <div class="order-date">
+                            Tanggal pesanan:
+                            {{ $order->sale_date ? \Carbon\Carbon::parse($order->sale_date)->format('d-m-Y') : '-' }}
+                        </div>
                     </div>
+
                     <div class="statuses">
-                        <span class="badge">Pesanan: {{ ucfirst(str_replace('_', ' ', $order->order_status ?? 'pending')) }}</span>
-                        <span class="badge">Pembayaran: {{ ucfirst(str_replace('_', ' ', $order->payment_status ?? 'pending')) }}</span>
+                        <span class="badge
+                            {{ $orderStatus === 'completed' ? 'badge-green' : '' }}
+                            {{ $orderStatus === 'cancelled' ? 'badge-red' : '' }}
+                            {{ in_array($orderStatus, ['shipped', 'received']) ? 'badge-blue' : '' }}">
+                            Pesanan: {{ $orderLabels[$orderStatus] ?? ucfirst(str_replace('_', ' ', $orderStatus)) }}
+                        </span>
+
+                        <span class="badge
+                            {{ $paymentStatus === 'paid' ? 'badge-green' : '' }}
+                            {{ $paymentStatus === 'waiting_confirmation' ? 'badge-blue' : '' }}">
+                            Pembayaran: {{ $paymentLabels[$paymentStatus] ?? ucfirst(str_replace('_', ' ', $paymentStatus)) }}
+                        </span>
                     </div>
                 </div>
 
                 <div class="order-body">
+
                     <h3>Rincian Produk</h3>
 
-                    @foreach ($order->items as $item)
+                    @forelse ($order->items as $item)
                         <div class="item">
                             <div>
-                                <div class="item-name">{{ $item->product->name ?? 'Produk tidak tersedia' }}</div>
-                                <div class="muted">{{ $item->quantity }} × Rp{{ number_format($item->selling_price, 0, ',', '.') }}</div>
+                                <div class="item-name">
+                                    {{ $item->product->name ?? 'Produk tidak tersedia' }}
+                                </div>
+                                <div class="item-quantity">
+                                    {{ $item->quantity }} ×
+                                    Rp{{ number_format((float) $item->selling_price, 0, ',', '.') }}
+                                </div>
                             </div>
-                            <div class="item-price">Rp{{ number_format($item->subtotal, 0, ',', '.') }}</div>
+
+                            <div class="item-price">
+                                Rp{{ number_format((float) $item->subtotal, 0, ',', '.') }}
+                            </div>
                         </div>
-                    @endforeach
+                    @empty
+                        <p class="muted">Tidak ada rincian produk untuk pesanan ini.</p>
+                    @endforelse
 
                     <div class="total">
                         <span>Total Pembayaran</span>
-                        <strong>Rp{{ number_format($order->total, 0, ',', '.') }}</strong>
+                        <strong>
+                            Rp{{ number_format((float) $order->total, 0, ',', '.') }}
+                        </strong>
                     </div>
 
                     <div class="details">
                         <div class="detail-box">
                             <div class="detail-label">Metode Pembayaran</div>
-                            <div class="detail-value">{{ $order->payment_method === 'transfer' ? 'Transfer Bank' : 'Tunai' }}</div>
+                            <div class="detail-value">
+                                {{ $paymentMethodLabels[$paymentMethod] ?? ucfirst($paymentMethod) }}
+                            </div>
                         </div>
+
                         <div class="detail-box">
-                            <div class="detail-label">Catatan</div>
-                            <div class="detail-value">{{ $order->notes ?: 'Tidak ada catatan.' }}</div>
+                            <div class="detail-label">Catatan Pesanan</div>
+                            <div class="detail-value">
+                                {{ $order->notes ?: 'Tidak ada catatan.' }}
+                            </div>
                         </div>
                     </div>
 
-                    @if ($order->payment_method === 'transfer' && $order->payment_status !== 'paid' && $order->order_status === 'pending')
+                    @if ($canUploadProof)
                         <div class="upload">
-                            <h3>Upload Bukti Transfer</h3>
-                            <p>Format JPG, JPEG, PNG, atau WEBP. Maksimal 2 MB.</p>
+                            <h3>
+                                @if ($order->transfer_proof)
+                                    Bukti Pembayaran Sudah Dikirim
+                                @else
+                                    Upload Bukti Pembayaran
+                                @endif
+                            </h3>
+
+                            <p>
+                                Unggah bukti pembayaran untuk metode
+                                {{ $paymentMethodLabels[$paymentMethod] ?? $paymentMethod }}.
+                                Format yang diterima JPG, JPEG, PNG, atau WEBP,
+                                dengan ukuran maksimal 2 MB.
+                            </p>
 
                             @if ($order->transfer_proof)
-                                <div class="proof-status">✓ Bukti transfer sudah diunggah dan menunggu pemeriksaan.</div>
+                                <div class="proof-status">
+                                    ✓ Bukti pembayaran sudah diunggah.
+                                    Menunggu pemeriksaan Admin atau Staff.
+                                    Jika bukti perlu diganti, kamu bisa mengunggahnya kembali selama pesanan belum diproses.
+                                </div>
                             @endif
 
-                            <form action="{{ route('user.orders.transfer-proof', $order) }}" method="POST" enctype="multipart/form-data">
+                            <form
+                                action="{{ route('user.orders.transfer-proof', $order) }}"
+                                method="POST"
+                                enctype="multipart/form-data"
+                            >
                                 @csrf
-                                <input type="file" name="transfer_proof" accept=".jpg,.jpeg,.png,.webp" required>
-                                <button type="submit" class="btn">
-                                    {{ $order->transfer_proof ? 'Ganti Bukti Transfer' : 'Kirim Bukti Transfer' }}
+
+                                <input
+                                    type="file"
+                                    name="transfer_proof"
+                                    accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                                    required
+                                >
+
+                                <button type="submit" class="btn btn-primary">
+                                    {{ $order->transfer_proof ? 'Ganti Bukti Pembayaran' : 'Kirim Bukti Pembayaran' }}
+                                </button>
+                            </form>
+                        </div>
+                    @elseif ($requiresProof && $paymentStatus === 'waiting_confirmation')
+                        <div class="proof-status">
+                            Bukti pembayaran sudah dikirim dan sedang diperiksa oleh Admin atau Staff.
+                        </div>
+                    @elseif ($requiresProof && $paymentStatus === 'paid')
+                        <div class="proof-status">
+                            Pembayaran sudah dikonfirmasi dan dinyatakan lunas.
+                        </div>
+                    @endif
+
+                    @if ($orderStatus === 'pending' && $paymentMethod === 'cod')
+                        <div class="info-note">
+                            <strong>Informasi COD:</strong>
+                            Pembayaran dilakukan saat pesanan diterima.
+                            Tunggu Admin atau Staff memproses pesananmu.
+                        </div>
+                    @endif
+
+                    @if ($orderStatus === 'shipped')
+                        <div class="info-note">
+                            Pesanan sedang dalam pengiriman.
+                            Tekan tombol <strong>Pesanan Diterima</strong> setelah barang benar-benar kamu terima.
+                        </div>
+
+                        <div class="order-actions">
+                            <form
+                                action="{{ route('user.orders.received', $order) }}"
+                                method="POST"
+                                onsubmit="return confirm('Apakah barang sudah benar-benar kamu terima?')"
+                            >
+                                @csrf
+                                @method('PATCH')
+
+                                <button type="submit" class="btn btn-green">
+                                    ✓ Pesanan Diterima
+                                </button>
+                            </form>
+                        </div>
+                    @elseif ($orderStatus === 'received')
+                        <div class="info-note">
+                            Barang sudah kamu tandai diterima.
+                            Pesanan menunggu Admin atau Staff menyelesaikan prosesnya.
+                            Untuk COD, pembayaran akan ditandai lunas saat pesanan diselesaikan.
+                        </div>
+                    @elseif ($orderStatus === 'completed')
+                        <div class="proof-status">
+                            ✓ Pesanan sudah selesai.
+                            @if ($paymentStatus === 'paid')
+                                Pembayaran telah dinyatakan lunas.
+                            @endif
+                        </div>
+                    @elseif ($orderStatus === 'cancelled')
+                        <div class="cancelled">
+                            Pesanan ini sudah dibatalkan.
+                            Stok barang telah dikembalikan sesuai proses pembatalan.
+                        </div>
+                    @endif
+
+                    @if ($canCancel)
+                        <div class="order-actions">
+                            <form
+                                action="{{ route('user.orders.cancel', $order) }}"
+                                method="POST"
+                                onsubmit="return confirm('Yakin ingin membatalkan pesanan ini?')"
+                            >
+                                @csrf
+                                @method('PATCH')
+
+                                <button type="submit" class="btn btn-red">
+                                    Batalkan Pesanan
                                 </button>
                             </form>
                         </div>
                     @endif
 
-                    @if ($order->order_status === 'pending' && $order->payment_status !== 'paid')
-                        <div class="order-actions">
-                            <form action="{{ route('user.orders.cancel', $order) }}" method="POST" onsubmit="return confirm('Yakin ingin membatalkan pesanan ini? Stok barang akan dikembalikan.')">
-                                @csrf
-                                @method('PATCH')
-                                <button type="submit" class="btn btn-red">Batalkan Pesanan</button>
-                            </form>
-                        </div>
-                    @elseif ($order->order_status === 'cancelled')
-                        <div class="cancelled">Pesanan ini sudah dibatalkan. Jika belum lunas, stok barang telah dikembalikan.</div>
-                    @endif
                 </div>
             </article>
+
         @empty
-            <div class="empty">
+
+            <section class="empty-state">
                 <div class="empty-icon">🛍️</div>
-                <h2>Belum Ada Pesanan</h2>
-                <p>Pesanan yang kamu buat akan muncul di halaman ini.</p>
-                <a href="{{ route('user.dashboard') }}" class="btn">Mulai Belanja →</a>
-            </div>
+                <h3>Belum Ada Pesanan</h3>
+                <p>
+                    Pesanan yang kamu buat akan muncul di halaman ini.
+                    Yuk, cari produk yang kamu butuhkan.
+                </p>
+                <a href="{{ route('user.dashboard') }}" class="btn btn-primary">
+                    Mulai Belanja →
+                </a>
+            </section>
+
         @endforelse
 
-        <div class="pagination">
-            {{ $orders->links() }}
-        </div>
+        @if (method_exists($orders, 'links'))
+            <div class="pagination">
+                {{ $orders->links() }}
+            </div>
+        @endif
+
+        <footer class="footer">
+            Inventory Sales &copy; {{ date('Y') }}
+        </footer>
+
     </main>
 
-    <footer>Inventory Sales &copy; {{ date('Y') }}. Semua hak dilindungi.</footer>
 </body>
 </html>

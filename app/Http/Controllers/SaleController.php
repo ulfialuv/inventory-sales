@@ -68,7 +68,7 @@ class SaleController extends Controller
 
     /*
     |--------------------------------------------------------------------------
-    | Simpan transaksi penjualan Admin dan Staff
+    | Simpan transaksi langsung di toko
     |--------------------------------------------------------------------------
     */
 
@@ -143,29 +143,37 @@ class SaleController extends Controller
     public function confirmPayment(Sale $sale)
     {
         $result = DB::transaction(function () use ($sale) {
-            $sale = Sale::whereKey($sale->id)
+            $order = Sale::whereKey($sale->id)
                 ->lockForUpdate()
                 ->firstOrFail();
 
-            if ($sale->order_status === 'cancelled') {
+            if ($order->order_status === 'cancelled') {
                 return 'cancelled';
             }
 
-            if ($sale->payment_status === 'paid') {
+            if ($order->payment_status === 'paid') {
                 return 'already_paid';
             }
 
+            if ($order->payment_method === 'cash') {
+                return 'invalid_method';
+            }
+
             if (
-                $sale->payment_method === 'transfer'
-                && empty($sale->transfer_proof)
+                in_array($order->payment_method, ['transfer', 'qris', 'ewallet'], true)
+                && empty($order->transfer_proof)
             ) {
                 return 'no_proof';
             }
 
-            $sale->update([
-                'payment_status' => 'paid',
-                'order_status' => 'completed',
-            ]);
+            $order->payment_status = 'paid';
+
+            // Pembayaran lunas tidak otomatis menyelesaikan pesanan.
+            if ($order->order_status === 'pending') {
+                $order->order_status = 'processing';
+            }
+
+            $order->save();
 
             return 'success';
         });
@@ -178,13 +186,243 @@ class SaleController extends Controller
             return back()->with('error', 'Pembayaran pesanan ini sudah dikonfirmasi lunas.');
         }
 
+        if ($result === 'invalid_method') {
+            return back()->with(
+                'error',
+                'Pembayaran tunai saat transaksi langsung tidak perlu dikonfirmasi lagi.'
+            );
+        }
+
         if ($result === 'no_proof') {
-            return back()->with('error', 'Bukti transfer belum diunggah oleh pembeli.');
+            return back()->with(
+                'error',
+                'Pembeli belum mengunggah bukti pembayaran.'
+            );
         }
 
         return back()->with(
             'success',
-            'Pembayaran berhasil dikonfirmasi. Pesanan sekarang berstatus selesai.'
+            'Pembayaran berhasil dikonfirmasi. Pesanan masuk ke tahap diproses.'
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Ubah status pesanan oleh Admin dan Staff
+    |--------------------------------------------------------------------------
+    */
+
+    public function updateOrderStatus(Request $request, Sale $sale)
+    {
+        $validated = $request->validate([
+            'order_status' => ['required', 'in:processing,shipped'],
+        ]);
+
+        $result = DB::transaction(function () use ($sale, $validated) {
+            $order = Sale::whereKey($sale->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if ($order->order_status === 'cancelled') {
+                return 'cancelled';
+            }
+
+            if ($order->order_status === 'completed') {
+                return 'completed';
+            }
+
+            $newStatus = $validated['order_status'];
+
+            if ($newStatus === 'processing') {
+                if ($order->order_status !== 'pending') {
+                    return 'invalid_transition';
+                }
+
+                // Pesanan transfer/QRIS harus sudah lunas.
+                if (
+                    in_array($order->payment_method, ['transfer', 'qris', 'ewallet'], true)
+                    && $order->payment_status !== 'paid'
+                ) {
+                    return 'unpaid';
+                }
+
+                $order->order_status = 'processing';
+            }
+
+            if ($newStatus === 'shipped') {
+                if ($order->order_status !== 'processing') {
+                    return 'invalid_transition';
+                }
+
+                if (
+                    in_array($order->payment_method, ['transfer', 'qris', 'ewallet'], true)
+                    && $order->payment_status !== 'paid'
+                ) {
+                    return 'unpaid';
+                }
+
+                $order->order_status = 'shipped';
+            }
+
+            $order->save();
+
+            return 'success';
+        });
+
+        if ($result === 'cancelled') {
+            return back()->with('error', 'Pesanan sudah dibatalkan.');
+        }
+
+        if ($result === 'completed') {
+            return back()->with('error', 'Pesanan sudah selesai.');
+        }
+
+        if ($result === 'invalid_transition') {
+            return back()->with(
+                'error',
+                'Perubahan status tidak sesuai dengan tahap pesanan saat ini.'
+            );
+        }
+
+        if ($result === 'unpaid') {
+            return back()->with(
+                'error',
+                'Pembayaran harus dikonfirmasi sebelum pesanan diproses atau dikirim.'
+            );
+        }
+
+        return back()->with('success', 'Status pesanan berhasil diperbarui.');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Pelanggan mengonfirmasi barang sudah diterima
+    |--------------------------------------------------------------------------
+    */
+
+    public function markReceived(Sale $sale)
+    {
+        $result = DB::transaction(function () use ($sale) {
+            $order = Sale::whereKey($sale->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if ((int) $order->user_id !== (int) auth()->id()) {
+                abort(403, 'Kamu tidak memiliki akses ke pesanan ini.');
+            }
+
+            if ($order->order_status === 'cancelled') {
+                return 'cancelled';
+            }
+
+            if ($order->order_status === 'received') {
+                return 'already_received';
+            }
+
+            if ($order->order_status === 'completed') {
+                return 'completed';
+            }
+
+            if ($order->order_status !== 'shipped') {
+                return 'not_shipped';
+            }
+
+            $order->update([
+                'order_status' => 'received',
+            ]);
+
+            return 'success';
+        });
+
+        if ($result === 'cancelled') {
+            return back()->with('error', 'Pesanan yang dibatalkan tidak dapat dikonfirmasi.');
+        }
+
+        if ($result === 'already_received') {
+            return back()->with('error', 'Pesanan sudah dikonfirmasi diterima.');
+        }
+
+        if ($result === 'completed') {
+            return back()->with('error', 'Pesanan ini sudah selesai.');
+        }
+
+        if ($result === 'not_shipped') {
+            return back()->with(
+                'error',
+                'Pesanan dapat dikonfirmasi diterima setelah statusnya dikirim.'
+            );
+        }
+
+        return back()->with(
+            'success',
+            'Konfirmasi penerimaan berhasil. Silakan tunggu Admin/Staff menyelesaikan pesanan.'
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Admin dan Staff menyelesaikan pesanan
+    |--------------------------------------------------------------------------
+    */
+
+    public function completeOrder(Sale $sale)
+    {
+        $result = DB::transaction(function () use ($sale) {
+            $order = Sale::whereKey($sale->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if ($order->order_status === 'cancelled') {
+                return 'cancelled';
+            }
+
+            if ($order->order_status === 'completed') {
+                return 'already_completed';
+            }
+
+            if ($order->order_status !== 'received') {
+                return 'not_received';
+            }
+
+            // COD dianggap dibayar ketika Admin/Staff menyelesaikan
+            // pesanan yang sudah dikonfirmasi diterima pelanggan.
+            if ($order->payment_method === 'cod') {
+                $order->payment_status = 'paid';
+            } elseif ($order->payment_status !== 'paid') {
+                return 'unpaid';
+            }
+
+            $order->order_status = 'completed';
+            $order->save();
+
+            return 'success';
+        });
+
+        if ($result === 'cancelled') {
+            return back()->with('error', 'Pesanan yang dibatalkan tidak dapat diselesaikan.');
+        }
+
+        if ($result === 'already_completed') {
+            return back()->with('error', 'Pesanan ini sudah selesai sebelumnya.');
+        }
+
+        if ($result === 'not_received') {
+            return back()->with(
+                'error',
+                'Pelanggan harus mengonfirmasi penerimaan barang terlebih dahulu.'
+            );
+        }
+
+        if ($result === 'unpaid') {
+            return back()->with(
+                'error',
+                'Pembayaran harus dikonfirmasi lunas sebelum pesanan diselesaikan.'
+            );
+        }
+
+        return back()->with(
+            'success',
+            'Pesanan berhasil diselesaikan.'
         );
     }
 
@@ -197,22 +435,22 @@ class SaleController extends Controller
     public function cancelOrder(Sale $sale)
     {
         $result = DB::transaction(function () use ($sale) {
-            $sale = Sale::whereKey($sale->id)
+            $order = Sale::whereKey($sale->id)
                 ->lockForUpdate()
                 ->firstOrFail();
 
-            if ($sale->order_status === 'cancelled') {
+            if ($order->order_status === 'cancelled') {
                 return 'already_cancelled';
             }
 
             if (
-                $sale->payment_status === 'paid'
-                || $sale->order_status === 'completed'
+                $order->payment_status === 'paid'
+                || in_array($order->order_status, ['shipped', 'received', 'completed'], true)
             ) {
-                return 'already_completed';
+                return 'already_processed';
             }
 
-            $items = $sale->items()->get();
+            $items = $order->items()->get();
 
             foreach ($items as $item) {
                 $product = Product::whereKey($item->product_id)
@@ -224,7 +462,7 @@ class SaleController extends Controller
                 }
             }
 
-            $sale->update([
+            $order->update([
                 'order_status' => 'cancelled',
             ]);
 
@@ -235,10 +473,10 @@ class SaleController extends Controller
             return back()->with('error', 'Pesanan ini sudah dibatalkan sebelumnya.');
         }
 
-        if ($result === 'already_completed') {
+        if ($result === 'already_processed') {
             return back()->with(
                 'error',
-                'Pesanan yang sudah selesai atau lunas tidak dapat dibatalkan melalui fitur ini.'
+                'Pesanan yang sudah lunas, dikirim, diterima, atau selesai tidak dapat dibatalkan melalui fitur ini.'
             );
         }
 
@@ -271,18 +509,16 @@ class SaleController extends Controller
 
             if (
                 $order->payment_status === 'paid'
-                || $order->order_status === 'completed'
+                || in_array($order->order_status, ['shipped', 'received', 'completed'], true)
             ) {
-                return 'already_completed';
+                return 'already_processed';
             }
 
             if ($order->order_status !== 'pending') {
                 return 'not_pending';
             }
 
-            $items = $order->items()->get();
-
-            foreach ($items as $item) {
+            foreach ($order->items()->get() as $item) {
                 $product = Product::whereKey($item->product_id)
                     ->lockForUpdate()
                     ->first();
@@ -303,10 +539,10 @@ class SaleController extends Controller
             return back()->with('error', 'Pesanan ini sudah dibatalkan sebelumnya.');
         }
 
-        if ($result === 'already_completed') {
+        if ($result === 'already_processed') {
             return back()->with(
                 'error',
-                'Pesanan yang sudah lunas atau selesai tidak dapat dibatalkan.'
+                'Pesanan yang sudah diproses, dikirim, lunas, atau selesai tidak dapat dibatalkan.'
             );
         }
 
@@ -477,7 +713,7 @@ class SaleController extends Controller
     public function placeOrder(Request $request)
     {
         $validated = $request->validate([
-            'payment_method' => ['required', 'in:cash,transfer'],
+            'payment_method' => ['required', 'in:cod,transfer,qris,ewallet'],
             'notes' => ['nullable', 'string', 'max:1000'],
         ]);
 
@@ -558,7 +794,7 @@ class SaleController extends Controller
 
     /*
     |--------------------------------------------------------------------------
-    | Unggah bukti pembayaran transfer
+    | Unggah bukti pembayaran transfer atau QRIS/e-wallet
     |--------------------------------------------------------------------------
     */
 
@@ -575,16 +811,22 @@ class SaleController extends Controller
 
         abort_unless((int) $sale->user_id === (int) auth()->id(), 403);
 
-        if ($sale->payment_method !== 'transfer') {
-            return back()->with('error', 'Pesanan ini tidak menggunakan transfer bank.');
+        if (!in_array($sale->payment_method, ['transfer', 'qris', 'ewallet'], true)) {
+            return back()->with(
+                'error',
+                'Unggah bukti hanya tersedia untuk pembayaran transfer atau QRIS/e-wallet.'
+            );
         }
 
         if ($sale->payment_status === 'paid') {
             return back()->with('error', 'Pesanan ini sudah dikonfirmasi lunas.');
         }
 
-        if ($sale->order_status === 'cancelled') {
-            return back()->with('error', 'Pesanan yang dibatalkan tidak dapat menerima pembayaran.');
+        if ($sale->order_status !== 'pending') {
+            return back()->with(
+                'error',
+                'Bukti pembayaran hanya dapat diunggah saat pesanan masih menunggu.'
+            );
         }
 
         $path = $request->file('transfer_proof')
@@ -601,7 +843,7 @@ class SaleController extends Controller
 
         return back()->with(
             'success',
-            'Bukti transfer berhasil diunggah. Silakan tunggu konfirmasi Admin/Staff.'
+            'Bukti pembayaran berhasil diunggah. Tunggu konfirmasi Admin/Staff.'
         );
     }
 

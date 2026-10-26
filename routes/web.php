@@ -56,26 +56,21 @@ Route::get('/dashboard', function () {
 Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::get('/admin', function () {
-
-        // Statistik utama
         $totalProducts = Product::count();
         $totalCategories = Category::count();
         $totalSuppliers = Supplier::count();
         $totalPurchases = Purchase::count();
         $totalSales = Sale::count();
 
-        // Total nilai transaksi
         $totalSalesAmount = Sale::sum('total');
         $totalPurchaseAmount = Purchase::sum('total');
 
-        // Produk yang stoknya menipis
         $lowStockProducts = Product::whereColumn(
             'stock',
             '<=',
             'minimum_stock'
         )->count();
 
-        // Daftar pengguna untuk dashboard admin
         $users = User::latest()->paginate(10);
 
         return view('admin.dashboard', compact(
@@ -89,15 +84,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
             'lowStockProducts',
             'users'
         ));
-
     })->name('admin.dashboard');
 
     Route::resource('categories', CategoryController::class);
-
     Route::resource('products', ProductController::class);
-
     Route::resource('suppliers', SupplierController::class);
-
     Route::resource('users', UserController::class);
 });
 
@@ -109,22 +100,39 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 Route::middleware(['auth', 'role:admin,staff'])->group(function () {
 
+    // Transaksi pembelian
     Route::resource('purchases', PurchaseController::class)
         ->only(['index', 'create', 'store']);
 
+    // Transaksi penjualan
     Route::resource('sales', SaleController::class)
         ->only(['index', 'create', 'store']);
 
+    // Konfirmasi pembayaran transfer atau QRIS/e-wallet
     Route::patch('/sales/{sale}/confirm-payment', [
         SaleController::class,
         'confirmPayment'
     ])->name('sales.confirmPayment');
 
+    // Ubah status pesanan menjadi diproses atau dikirim
+    Route::patch('/sales/{sale}/order-status', [
+        SaleController::class,
+        'updateOrderStatus'
+    ])->name('sales.updateOrderStatus');
+
+    // Selesaikan pesanan setelah pelanggan mengonfirmasi penerimaan
+    Route::patch('/sales/{sale}/complete-order', [
+        SaleController::class,
+        'completeOrder'
+    ])->name('sales.completeOrder');
+
+    // Batalkan pesanan
     Route::patch('/sales/{sale}/cancel-order', [
         SaleController::class,
         'cancelOrder'
     ])->name('sales.cancelOrder');
 
+    // Laporan
     Route::get('/reports', [
         ReportController::class,
         'index'
@@ -159,7 +167,6 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 
     // Dashboard pembeli
     Route::get('/user', function (Request $request) {
-
         $query = Product::query();
 
         if ($request->filled('search')) {
@@ -191,7 +198,6 @@ Route::middleware(['auth', 'role:user'])->group(function () {
             'products',
             'users'
         ));
-
     })->name('user.dashboard');
 
     // Keranjang belanja
@@ -226,21 +232,29 @@ Route::middleware(['auth', 'role:user'])->group(function () {
         'placeOrder'
     ])->name('cart.placeOrder');
 
-    // Pesanan saya
+    // Riwayat pesanan
     Route::get('/pesanan-saya', [
         SaleController::class,
         'myOrders'
     ])->name('user.orders');
 
+    // Batalkan pesanan sendiri
     Route::patch('/pesanan-saya/{sale}/batalkan', [
         SaleController::class,
         'cancelMyOrder'
     ])->name('user.orders.cancel');
 
+    // Unggah bukti transfer atau QRIS/e-wallet
     Route::post('/pesanan-saya/{sale}/bukti-transfer', [
         SaleController::class,
         'uploadTransferProof'
     ])->name('user.orders.transfer-proof');
+
+    // Pelanggan mengonfirmasi bahwa barang sudah diterima
+    Route::patch('/pesanan-saya/{sale}/diterima', [
+        SaleController::class,
+        'markReceived'
+    ])->name('user.orders.received');
 });
 
 /*

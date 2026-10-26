@@ -3,104 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout - Inventory Sales</title>
+    <title>Checkout Pesanan | Inventory Sales</title>
 
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; }
 
         :root {
-            --green: #426B50;
-            --green-dark: #2F503C;
-            --green-light: #E9F0E8;
-            --sage: #D7E3D5;
-            --cream: #F7F5ED;
-            --white: #FFFFFF;
-            --text: #303A32;
-            --muted: #7B837A;
-            --border: #E2E8DF;
-            --red: #C74747;
+            --maroon: #54232b;
+            --maroon-light: #78404a;
+            --maroon-dark: #3d1820;
+            --gold: #b99556;
+            --gold-light: #f1e6d7;
+            --background: #f7f3ed;
+            --white: #fffdf9;
+            --text: #302526;
+            --muted: #8a7d79;
+            --border: #ece2d7;
+            --green: #346441;
+            --red: #a33333;
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background: var(--cream);
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: var(--background);
             color: var(--text);
-            min-height: 100vh;
         }
 
-        a {
-            text-decoration: none;
-        }
+        a { color: inherit; text-decoration: none; }
+        button, input, select, textarea { font: inherit; }
 
-        .navbar {
-            background: var(--green-dark);
+        .sidebar {
+            position: fixed;
+            inset: 0 auto 0 0;
+            width: 225px;
+            padding: 28px 18px;
+            background: var(--maroon);
             color: white;
-            padding: 17px 6%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            box-shadow: 0 3px 12px rgba(42, 70, 46, .10);
+            z-index: 10;
         }
 
         .brand {
-            color: white;
-            font-size: 21px;
-            font-weight: bold;
-            letter-spacing: .2px;
-        }
-
-        .nav-links {
             display: flex;
             align-items: center;
-            gap: 23px;
-            flex-wrap: wrap;
+            gap: 11px;
+            margin-bottom: 36px;
         }
 
-        .nav-links a {
-            color: #F2F6F0;
+        .brand-icon {
+            display: grid;
+            place-items: center;
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+            border-radius: 12px;
+            background: var(--gold);
+            color: var(--maroon);
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .brand h2 { margin: 0; font-size: 17px; }
+        .brand small { color: #d9c5c1; font-size: 11px; }
+
+        .nav-title {
+            margin: 24px 10px 10px;
+            color: #c6a9a7;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            margin-bottom: 5px;
+            border-radius: 9px;
+            color: #f2e8e5;
             font-size: 13px;
-            transition: .2s;
+            transition: background .2s;
         }
 
-        .nav-links a:hover {
-            color: #C8DCC9;
+        .sidebar a:hover,
+        .sidebar a.active { background: var(--maroon-light); }
+
+        .nav-icon {
+            width: 20px;
+            flex-shrink: 0;
+            text-align: center;
         }
 
-        .container {
-            width: min(1050px, 92%);
-            margin: 32px auto 50px;
+        .logout {
+            position: absolute;
+            right: 18px;
+            bottom: 22px;
+            left: 18px;
         }
 
-        .page-heading {
-            margin-bottom: 25px;
+        .logout button {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #80525a;
+            border-radius: 9px;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+            transition: background .2s;
         }
 
-        .breadcrumb {
+        .logout button:hover { background: var(--maroon-light); }
+
+        .main {
+            max-width: 1600px;
+            margin-left: 225px;
+            padding: 30px 34px;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+
+        .eyebrow {
+            color: #9b7a48;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 7px 0;
+            color: var(--maroon);
+            font-family: Georgia, serif;
+            font-size: 30px;
+            font-weight: normal;
+        }
+
+        .muted {
             color: var(--muted);
             font-size: 12px;
-            margin-bottom: 13px;
+            line-height: 1.7;
+        }
+
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 13px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--white);
+        }
+
+        .avatar {
+            display: grid;
+            place-items: center;
+            width: 38px;
+            height: 38px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: var(--gold-light);
+            color: var(--maroon);
+            font-weight: bold;
+        }
+
+        .user-chip strong { display: block; font-size: 12px; }
+        .user-chip small { color: var(--muted); font-size: 11px; }
+
+        .alert {
+            padding: 13px 16px;
+            margin-bottom: 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .alert-success {
+            border: 1px solid #c8dfcb;
+            background: #edf7ee;
+            color: var(--green);
+        }
+
+        .alert-error {
+            border: 1px solid #e8caca;
+            background: #fff0f0;
+            color: var(--red);
+        }
+
+        .alert ul { margin: 7px 0 0; padding-left: 20px; }
+
+        .page-heading { margin-bottom: 23px; }
+
+        .breadcrumb {
+            margin-bottom: 17px;
+            color: var(--muted);
+            font-size: 11px;
         }
 
         .breadcrumb a {
-            color: var(--green);
-            font-weight: bold;
+            color: var(--maroon-light);
+            font-weight: 600;
         }
 
-        .page-heading h1 {
-            font-size: 28px;
-            color: var(--green-dark);
-            margin-bottom: 9px;
+        .page-heading h2 {
+            margin: 0;
+            color: var(--maroon);
+            font-family: Georgia, serif;
+            font-size: 22px;
+            font-weight: normal;
         }
 
         .page-heading p {
+            margin: 7px 0 0;
             color: var(--muted);
-            font-size: 13px;
+            font-size: 12px;
             line-height: 1.7;
         }
 
@@ -108,81 +229,117 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-top: 22px;
             flex-wrap: wrap;
+            margin-top: 20px;
         }
 
         .step {
             display: flex;
             align-items: center;
             gap: 8px;
-            color: #92988F;
-            font-size: 12px;
-            font-weight: bold;
+            color: #a39a94;
+            font-size: 11px;
+            font-weight: 600;
         }
 
         .step-number {
-            width: 27px;
-            height: 27px;
+            display: grid;
+            place-items: center;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #E9E9DF;
-            color: #777D73;
+            background: #eee7df;
+            color: var(--muted);
         }
 
-        .step.active {
-            color: var(--green-dark);
-        }
-
-        .step.active .step-number {
-            color: white;
-            background: var(--green);
-        }
+        .step.active { color: var(--maroon); }
+        .step.active .step-number { background: var(--maroon); color: white; }
+        .step.done { color: var(--green); }
+        .step.done .step-number { background: #e1eee2; color: var(--green); }
 
         .step-line {
-            height: 1px;
             width: 35px;
-            background: #D9DFD4;
+            height: 1px;
+            background: #dfd2c5;
         }
 
-        .layout {
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 11px 15px;
+            border: none;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: background .2s, transform .2s;
+        }
+
+        .btn:hover { transform: translateY(-1px); }
+        .btn-primary { background: var(--maroon); color: white; }
+        .btn-primary:hover { background: var(--maroon-light); }
+        .btn-gold { background: var(--gold-light); color: var(--maroon); }
+        .btn-gold:hover { background: #e9d7bc; }
+        .btn-full { width: 100%; padding: 13px; font-size: 13px; }
+
+        .checkout-layout {
             display: grid;
-            grid-template-columns: minmax(0, 1fr) 310px;
-            gap: 22px;
+            grid-template-columns: minmax(0, 1fr) 290px;
+            gap: 18px;
             align-items: start;
         }
 
+        .left-column { min-width: 0; }
+
         .card {
-            background: var(--white);
+            min-width: 0;
+            margin-bottom: 18px;
             border: 1px solid var(--border);
-            border-radius: 14px;
-            box-shadow: 0 4px 16px rgba(45, 65, 43, .04);
+            border-radius: 13px;
+            background: var(--white);
+            box-shadow: 0 5px 18px rgba(84, 35, 43, .035);
             overflow: hidden;
-            margin-bottom: 20px;
         }
 
         .card-header {
-            padding: 20px 23px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 19px 20px;
             border-bottom: 1px solid var(--border);
-            background: #FCFBF7;
+            background: #fffdf9;
         }
 
-        .card-header h2 {
-            font-size: 17px;
-            color: var(--green-dark);
+        .card-header h2,
+        .summary-body h2 {
+            margin: 0;
+            color: var(--maroon);
+            font-family: Georgia, serif;
+            font-size: 19px;
+            font-weight: normal;
         }
 
         .card-header p {
-            font-size: 12px;
+            margin: 6px 0 0;
             color: var(--muted);
-            margin-top: 6px;
+            font-size: 11px;
             line-height: 1.6;
         }
 
-        .card-body {
-            padding: 22px 23px;
+        .card-body { padding: 21px 20px; }
+
+        .count {
+            padding: 7px 11px;
+            border-radius: 20px;
+            background: var(--gold-light);
+            color: var(--maroon);
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
         }
 
         .item {
@@ -190,225 +347,138 @@
             justify-content: space-between;
             align-items: flex-start;
             gap: 15px;
-            padding: 16px 0;
-            border-bottom: 1px solid #EDF0E9;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0e8df;
         }
 
-        .item:first-child {
-            padding-top: 0;
-        }
-
-        .item:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
+        .item:first-child { padding-top: 0; }
+        .item:last-child { padding-bottom: 0; border-bottom: none; }
 
         .item-name {
-            font-size: 13px;
-            font-weight: bold;
+            color: var(--maroon);
+            font-size: 12px;
+            font-weight: 700;
             line-height: 1.6;
+            overflow-wrap: anywhere;
         }
 
         .item-detail {
+            margin-top: 5px;
             color: var(--muted);
-            font-size: 11px;
+            font-size: 10px;
             line-height: 1.8;
-            margin-top: 4px;
         }
 
         .item-price {
-            font-size: 13px;
-            font-weight: bold;
-            color: var(--green-dark);
+            color: var(--maroon);
+            font-size: 12px;
+            font-weight: 700;
             white-space: nowrap;
         }
 
-        .total {
+        .total-products {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            gap: 15px;
-            border-top: 1px dashed #D6E0D4;
-            padding-top: 19px;
-            margin-top: 21px;
+            gap: 12px;
+            margin-top: 20px;
+            padding-top: 17px;
+            border-top: 1px dashed #ddcdbb;
         }
 
-        .total span {
-            font-size: 13px;
-            font-weight: bold;
-        }
+        .total-products span { font-size: 12px; font-weight: 700; }
 
-        .total strong {
-            color: var(--green-dark);
-            font-size: 20px;
+        .total-products strong {
+            color: var(--maroon);
+            font-size: 18px;
             text-align: right;
             overflow-wrap: anywhere;
         }
 
-        .form-group {
-            margin-bottom: 21px;
-        }
+        .form-group { margin-bottom: 21px; }
+        .form-group:last-child { margin-bottom: 0; }
 
-        label {
+        .form-label {
             display: block;
-            font-size: 13px;
-            font-weight: bold;
             margin-bottom: 9px;
+            color: var(--text);
+            font-size: 12px;
+            font-weight: 700;
         }
 
-        .required {
-            color: var(--red);
+        .required { color: var(--red); }
+
+        .optional {
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: normal;
         }
 
-        select,
-        textarea,
-        input[type="file"] {
+        select, textarea {
             display: block;
             width: 100%;
             padding: 12px 13px;
-            border: 1px solid #D6E0D4;
+            border: 1px solid var(--border);
             border-radius: 8px;
-            font: inherit;
-            font-size: 13px;
-            color: var(--text);
-            background: white;
             outline: none;
+            background: white;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 12px;
             transition: border-color .2s, box-shadow .2s;
         }
 
-        select:focus,
-        textarea:focus,
-        input[type="file"]:focus {
-            border-color: var(--green);
-            box-shadow: 0 0 0 3px rgba(66, 107, 80, .12);
+        select:focus, textarea:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(185, 149, 86, .12);
         }
 
         textarea {
-            resize: vertical;
             min-height: 100px;
+            resize: vertical;
             line-height: 1.7;
         }
 
         .helper {
-            font-size: 11px;
-            color: var(--muted);
             margin-top: 7px;
-            line-height: 1.7;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.8;
         }
 
         .payment-info {
             display: none;
+            margin-top: 12px;
             padding: 13px 14px;
+            border: 1px solid #e6d5b9;
             border-radius: 9px;
-            background: var(--green-light);
-            color: var(--green-dark);
-            font-size: 12px;
-            line-height: 1.8;
-            margin-top: 11px;
-        }
-
-        .payment-info.show {
-            display: block;
-        }
-
-        #transfer-upload-group {
-            display: none;
-            padding: 16px;
-            background: #F8FAF6;
-            border: 1px solid #DCE6D9;
-            border-radius: 10px;
-            margin-top: 14px;
-        }
-
-        #transfer-upload-group.show {
-            display: block;
-        }
-
-        .upload-note {
-            color: var(--muted);
-            font-size: 12px;
-            line-height: 1.8;
-            margin-bottom: 12px;
-        }
-
-        .error {
-            background: #FFF0EE;
-            color: #9C302B;
-            border: 1px solid #F2D0CA;
-            padding: 15px 18px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            font-size: 13px;
+            background: var(--gold-light);
+            color: var(--maroon);
+            font-size: 11px;
             line-height: 1.8;
         }
 
-        .error ul {
-            padding-left: 20px;
-            margin-top: 7px;
-        }
+        .payment-info.show { display: block; }
 
-        .button {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            gap: 7px;
-            padding: 12px 16px;
-            border: none;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            font-family: inherit;
-            transition: background .2s, transform .2s;
-        }
-
-        .button:hover {
-            transform: translateY(-1px);
-        }
-
-        .primary {
-            background: var(--green);
-            color: white;
-        }
-
-        .primary:hover {
-            background: var(--green-dark);
-        }
-
-        .secondary {
-            background: white;
-            color: var(--green-dark);
-            border: 1px solid #D6E0D4;
-        }
-
-        .secondary:hover {
-            background: #F1F5EF;
-        }
-
-        .actions {
+        .form-actions {
             display: flex;
             justify-content: space-between;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
-            margin-top: 25px;
+            margin-top: 24px;
         }
 
-        .summary-card {
-            position: sticky;
-            top: 20px;
-        }
-
-        .summary-body {
-            padding: 22px;
-        }
+        .summary { position: sticky; top: 20px; }
+        .summary-body { padding: 21px; }
+        .summary-body h2 { margin-bottom: 23px; }
 
         .summary-row {
             display: flex;
             justify-content: space-between;
             gap: 12px;
-            margin-bottom: 16px;
-            font-size: 12px;
+            margin-bottom: 17px;
             color: var(--muted);
+            font-size: 12px;
         }
 
         .summary-row strong {
@@ -416,468 +486,436 @@
             text-align: right;
         }
 
-        .summary-divider {
-            border: none;
-            border-top: 1px dashed #D6E0D4;
-            margin: 19px 0;
+        .divider {
+            margin: 20px 0;
+            border: 0;
+            border-top: 1px dashed #ddcdbb;
         }
 
         .summary-total {
             display: flex;
             justify-content: space-between;
-            gap: 12px;
             align-items: flex-start;
-            margin-bottom: 21px;
-        }
-
-        .summary-total span {
+            gap: 10px;
+            margin-bottom: 22px;
             font-size: 13px;
-            font-weight: bold;
+            font-weight: 700;
         }
 
         .summary-total strong {
-            font-size: 20px;
-            color: var(--green-dark);
+            color: var(--maroon);
+            font-size: 19px;
             text-align: right;
             overflow-wrap: anywhere;
         }
 
-        .submit-button {
-            width: 100%;
-            padding: 14px;
-            font-size: 13px;
-        }
-
         .summary-note {
             margin-top: 13px;
-            font-size: 11px;
             color: var(--muted);
+            font-size: 10px;
             line-height: 1.8;
             text-align: center;
         }
 
         .back-link {
             display: block;
-            text-align: center;
-            margin-top: 15px;
-            color: var(--green);
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .back-link:hover {
-            color: var(--green-dark);
-        }
-
-        footer {
-            text-align: center;
-            color: #858B80;
-            padding: 25px 15px;
+            margin-top: 16px;
+            color: var(--maroon-light);
             font-size: 11px;
+            font-weight: 600;
+            text-align: center;
         }
 
-        @media (max-width: 850px) {
-            .layout {
-                grid-template-columns: 1fr;
-            }
+        .back-link:hover { color: var(--gold); }
 
-            .summary-card {
+        .footer {
+            padding: 28px 0 5px;
+            color: #9a8d86;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        @media (max-width: 1200px) {
+            .main { padding: 25px 22px; }
+            .checkout-layout {
+                grid-template-columns: minmax(0, 1fr) 260px;
+            }
+        }
+
+        @media (max-width: 1000px) {
+            .checkout-layout { grid-template-columns: 1fr; }
+            .summary { position: static; }
+        }
+
+        @media (max-width: 800px) {
+            .sidebar {
                 position: static;
+                width: 100%;
+                height: auto;
+                padding: 20px;
+            }
+
+            .brand { margin-bottom: 20px; }
+            .sidebar .nav-title { margin-top: 17px; }
+
+            .logout {
+                position: static;
+                margin-top: 15px;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 22px 20px;
             }
         }
 
-        @media (max-width: 500px) {
-            .navbar {
-                padding: 16px 5%;
+        @media (max-width: 550px) {
+            .topbar {
+                align-items: flex-start;
+                flex-direction: column;
             }
 
-            .brand {
-                font-size: 19px;
-            }
+            .main { padding: 20px 14px; }
+            h1 { font-size: 26px; }
 
-            .nav-links {
-                gap: 14px;
-            }
+            .card-header, .card-body { padding: 16px; }
 
-            .nav-links a {
-                font-size: 12px;
-            }
-
-            .container {
-                margin-top: 24px;
-            }
-
-            .page-heading h1 {
-                font-size: 24px;
-            }
-
-            .card-header,
-            .card-body {
-                padding: 17px;
-            }
-
-            .item {
-                gap: 10px;
-            }
-
-            .item-price {
-                font-size: 12px;
-            }
-
-            .actions .button {
-                width: 100%;
-            }
-
-            .steps {
-                gap: 8px;
-            }
-
-            .step {
-                gap: 5px;
-                font-size: 11px;
-            }
-
-            .step-line {
-                width: 15px;
-            }
+            .form-actions { flex-direction: column; }
+            .form-actions .btn { width: 100%; }
+            .steps { gap: 8px; }
+            .step { gap: 5px; font-size: 10px; }
+            .step-line { width: 15px; }
+            .item { gap: 10px; }
+            .item-price { font-size: 11px; }
         }
     </style>
 </head>
 
 <body>
-
-<header class="navbar">
-    <a href="{{ route('user.dashboard') }}" class="brand">
-        Inventory Sales
-    </a>
-
-    <nav class="nav-links">
-        <a href="{{ route('user.dashboard') }}">Beranda</a>
-        <a href="{{ route('cart.index') }}">Keranjang</a>
-        <a href="{{ route('user.orders') }}">Pesanan Saya</a>
-    </nav>
-</header>
-
-<main class="container">
-
-    <div class="page-heading">
-        <div class="breadcrumb">
-            <a href="{{ route('user.dashboard') }}">Beranda</a>
-            &nbsp; / &nbsp;
-            <a href="{{ route('cart.index') }}">Keranjang</a>
-            &nbsp; / &nbsp;
-            Checkout
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">I</div>
+            <div>
+                <h2>Inventory Sales</h2>
+                <small>Customer Portal</small>
+            </div>
         </div>
 
-        <h1>Checkout Pesanan</h1>
-        <p>Periksa pesanan dan lengkapi informasi pembayaran sebelum membuat pesanan.</p>
+        <div class="nav-title">MENU UTAMA</div>
 
-        <div class="steps">
-            <div class="step">
-                <span class="step-number">✓</span>
-                Keranjang
+        <a href="{{ route('user.dashboard') }}">
+            <span class="nav-icon">⌂</span>
+            Beranda
+        </a>
+
+        <a href="{{ route('cart.index') }}" class="active">
+            <span class="nav-icon">🛒</span>
+            Keranjang
+        </a>
+
+        <a href="{{ route('user.orders') }}">
+            <span class="nav-icon">▤</span>
+            Pesanan Saya
+        </a>
+
+        <div class="nav-title">AKUN</div>
+
+        <form class="logout" method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit">↪ &nbsp; Keluar dari akun</button>
+        </form>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <div>
+                <div class="eyebrow">Inventory Sales</div>
+                <h1>Checkout Pesanan</h1>
+                <div class="muted">
+                    Periksa pesanan dan pilih metode pembayaran sebelum membuat pesanan.
+                </div>
             </div>
 
-            <div class="step-line"></div>
+            <div class="user-chip">
+                <div class="avatar">
+                    {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 1)) }}
+                </div>
+                <div>
+                    <strong>{{ auth()->user()->name ?? 'Pelanggan' }}</strong>
+                    <small>Pelanggan</small>
+                </div>
+            </div>
+        </header>
 
-            <div class="step active">
-                <span class="step-number">2</span>
+        @if (session('success'))
+            <div class="alert alert-success">✓ {{ session('success') }}</div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-error">{{ session('error') }}</div>
+        @endif
+
+        @if ($errors->any())
+            <div class="alert alert-error">
+                <strong>Ada yang perlu diperbaiki:</strong>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <section class="page-heading">
+            <div class="breadcrumb">
+                <a href="{{ route('user.dashboard') }}">Beranda</a>
+                &nbsp; / &nbsp;
+                <a href="{{ route('cart.index') }}">Keranjang</a>
+                &nbsp; / &nbsp;
                 Checkout
             </div>
 
-            <div class="step-line"></div>
+            <h2>Penyelesaian Pesanan</h2>
+            <p>Pastikan produk dan jumlah pembelian sudah benar sebelum melanjutkan.</p>
 
-            <div class="step">
-                <span class="step-number">3</span>
-                Selesai
-            </div>
-        </div>
-    </div>
-
-    @if ($errors->any())
-        <div class="error">
-            <strong>Periksa kembali data kamu:</strong>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-    <div class="layout">
-
-        <div>
-            <section class="card">
-                <div class="card-header">
-                    <h2>🛍️ Ringkasan Pesanan</h2>
-                    <p>Pastikan produk dan jumlah pembelian sudah benar.</p>
+            <div class="steps">
+                <div class="step done">
+                    <span class="step-number">✓</span>
+                    Keranjang
                 </div>
+                <div class="step-line"></div>
+                <div class="step active">
+                    <span class="step-number">2</span>
+                    Checkout
+                </div>
+                <div class="step-line"></div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    Selesai
+                </div>
+            </div>
+        </section>
 
-                <div class="card-body">
-                    @forelse ($items as $item)
-                        <div class="item">
-                            <div>
-                                <div class="item-name">
-                                    {{ $item['product']->name }}
+        <div class="checkout-layout">
+            <div class="left-column">
+
+                <section class="card">
+                    <div class="card-header">
+                        <div>
+                            <h2>Daftar Belanja</h2>
+                            <p>Pastikan produk dan jumlah pembelian sudah sesuai.</p>
+                        </div>
+                        <span class="count">{{ $items->count() }} jenis produk</span>
+                    </div>
+
+                    <div class="card-body">
+                        @forelse ($items as $item)
+                            <div class="item">
+                                <div>
+                                    <div class="item-name">
+                                        {{ $item['product']->name }}
+                                    </div>
+                                    <div class="item-detail">
+                                        SKU: {{ $item['product']->sku ?? '-' }}
+                                        <br>
+                                        {{ $item['quantity'] }} ×
+                                        Rp{{ number_format((float) $item['product']->selling_price, 0, ',', '.') }}
+                                    </div>
                                 </div>
 
-                                <div class="item-detail">
-                                    SKU: {{ $item['product']->sku ?? '-' }}
-                                    <br>
-                                    {{ $item['quantity'] }} ×
-                                    Rp{{ number_format((float) $item['product']->selling_price, 0, ',', '.') }}
+                                <strong class="item-price">
+                                    Rp{{ number_format((float) $item['subtotal'], 0, ',', '.') }}
+                                </strong>
+                            </div>
+                        @empty
+                            <p class="muted">Keranjang kamu masih kosong.</p>
+                        @endforelse
+
+                        <div class="total-products">
+                            <span>Total Belanja</span>
+                            <strong>
+                                Rp{{ number_format((float) $total, 0, ',', '.') }}
+                            </strong>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <div class="card-header">
+                        <div>
+                            <h2>Informasi Pembayaran</h2>
+                            <p>Pilih metode pembayaran yang akan kamu gunakan.</p>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <form
+                            id="checkout-form"
+                            action="{{ route('cart.placeOrder') }}"
+                            method="POST"
+                        >
+                            @csrf
+
+                            <div class="form-group">
+                                <label class="form-label" for="payment_method">
+                                    Metode Pembayaran
+                                    <span class="required">*</span>
+                                </label>
+
+                                <select name="payment_method" id="payment_method" required>
+                                    <option value="">-- Pilih Metode Pembayaran --</option>
+                                    <option value="cod"
+                                        {{ old('payment_method') === 'cod' ? 'selected' : '' }}>
+                                        COD (Bayar Saat Diterima)
+                                    </option>
+                                    <option value="transfer"
+                                        {{ old('payment_method') === 'transfer' ? 'selected' : '' }}>
+                                        Transfer Bank
+                                    </option>
+                                    <option value="qris"
+                                        {{ old('payment_method') === 'qris' ? 'selected' : '' }}>
+                                        QRIS
+                                    </option>
+                                    <option value="ewallet"
+                                        {{ old('payment_method') === 'ewallet' ? 'selected' : '' }}>
+                                        E-Wallet
+                                    </option>
+                                </select>
+
+                                <div id="cod-info" class="payment-info">
+                                    <strong>COD (Cash on Delivery)</strong><br>
+                                    Pembayaran dilakukan saat pesanan diterima. Siapkan uang sesuai total pesanan.
+                                    Status pembayaran akan diperbarui oleh Admin atau Staff setelah pesanan selesai.
+                                </div>
+
+                                <div id="transfer-info" class="payment-info">
+                                    <strong>Transfer Bank</strong><br>
+                                    Buat pesanan terlebih dahulu, kemudian lakukan transfer mengikuti informasi rekening dari toko.
+                                    Setelah itu, buka halaman Pesanan Saya untuk mengunggah bukti transfer.
+                                    Pembayaran akan diperiksa secara manual oleh Admin atau Staff.
+                                </div>
+
+                                <div id="qris-info" class="payment-info">
+                                    <strong>Pembayaran QRIS</strong><br>
+                                    Buat pesanan terlebih dahulu. Ikuti informasi pembayaran QRIS yang diberikan oleh toko,
+                                    kemudian unggah bukti pembayaran melalui halaman Pesanan Saya.
+                                    Pembayaran akan diperiksa oleh Admin atau Staff.
+                                </div>
+
+                                <div id="ewallet-info" class="payment-info">
+                                    <strong>Pembayaran E-Wallet</strong><br>
+                                    Buat pesanan terlebih dahulu. Ikuti petunjuk pembayaran dari toko,
+                                    lalu unggah bukti pembayaran melalui halaman Pesanan Saya untuk diperiksa oleh Admin atau Staff.
                                 </div>
                             </div>
 
-                            <strong class="item-price">
-                                Rp{{ number_format((float) $item['subtotal'], 0, ',', '.') }}
-                            </strong>
-                        </div>
-                    @empty
-                        <p class="item-detail">
-                            Keranjang kamu masih kosong.
-                        </p>
-                    @endforelse
+                            <div class="form-group">
+                                <label class="form-label" for="notes">
+                                    Catatan Pesanan
+                                    <span class="optional">(Opsional)</span>
+                                </label>
 
-                    <div class="total">
-                        <span>Total Belanja</span>
+                                <textarea
+                                    name="notes"
+                                    id="notes"
+                                    maxlength="1000"
+                                    placeholder="Contoh: Mohon periksa kondisi produk sebelum dikirim..."
+                                >{{ old('notes') }}</textarea>
+
+                                <p class="helper">
+                                    Maksimal 1.000 karakter. Kosongkan jika tidak ada catatan.
+                                </p>
+                            </div>
+
+                            <div class="form-actions">
+                                <a href="{{ route('cart.index') }}" class="btn btn-gold">
+                                    ← Kembali ke Keranjang
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    Buat Pesanan →
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+            </div>
+
+            <aside class="card summary">
+                <div class="card-header">
+                    <div>
+                        <h2>Ringkasan Belanja</h2>
+                        <p>Detail total pesanan kamu.</p>
+                    </div>
+                </div>
+
+                <div class="summary-body">
+                    <div class="summary-row">
+                        <span>Jenis produk</span>
+                        <strong>{{ $items->count() }} produk</strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Total barang</span>
+                        <strong>{{ $items->sum('quantity') }} barang</strong>
+                    </div>
+
+                    <hr class="divider">
+
+                    <div class="summary-total">
+                        <span>Total Pembayaran</span>
                         <strong>
                             Rp{{ number_format((float) $total, 0, ',', '.') }}
                         </strong>
                     </div>
-                </div>
-            </section>
 
-            <section class="card">
-                <div class="card-header">
-                    <h2>💳 Informasi Pembayaran</h2>
-                    <p>Pilih metode pembayaran yang akan kamu gunakan.</p>
-                </div>
-
-                <div class="card-body">
-                    <form
-                        id="checkout-form"
-                        action="{{ route('cart.placeOrder') }}"
-                        method="POST"
-                        enctype="multipart/form-data"
+                    <button
+                        type="submit"
+                        form="checkout-form"
+                        class="btn btn-primary btn-full"
                     >
-                        @csrf
+                        Buat Pesanan →
+                    </button>
 
-                        <div class="form-group">
-                            <label for="payment_method">
-                                Metode Pembayaran
-                                <span class="required">*</span>
-                            </label>
+                    <p class="summary-note">
+                        Bukti pembayaran transfer, QRIS, dan e-wallet diunggah setelah pesanan dibuat,
+                        melalui halaman Pesanan Saya. Pembayaran perlu dikonfirmasi oleh Admin atau Staff.
+                    </p>
 
-                            <select
-                                name="payment_method"
-                                id="payment_method"
-                                required
-                            >
-                                <option
-                                    value="cash"
-                                    {{ old('payment_method', 'cash') === 'cash' ? 'selected' : '' }}
-                                >
-                                    Bayar Tunai
-                                </option>
-
-                                <option
-                                    value="transfer"
-                                    {{ old('payment_method') === 'transfer' ? 'selected' : '' }}
-                                >
-                                    Transfer Bank
-                                </option>
-                            </select>
-
-                            <div id="cash-info" class="payment-info">
-                                <strong>Pembayaran tunai</strong><br>
-                                Silakan ikuti petunjuk pembayaran tunai yang diberikan oleh pihak toko.
-                            </div>
-
-                            <div id="transfer-info" class="payment-info">
-                                <strong>Pembayaran melalui transfer bank</strong><br>
-                                Lakukan transfer sesuai informasi rekening dari pihak toko.
-                                Setelah melakukan pembayaran, unggah bukti transfer di bawah ini.
-                            </div>
-                        </div>
-
-                        <div id="transfer-upload-group" class="form-group">
-                            <label for="transfer_proof">
-                                Upload Bukti Transfer
-                                <span class="required">*</span>
-                            </label>
-
-                            <p class="upload-note">
-                                Pilih foto atau dokumen bukti pembayaran.
-                                Pastikan tulisan dan nominal transfer dapat dibaca dengan jelas.
-                            </p>
-
-                            <input
-                                type="file"
-                                name="transfer_proof"
-                                id="transfer_proof"
-                                accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf"
-                            >
-
-                            <p class="helper">
-                                Format JPG, JPEG, PNG, atau PDF. Ukuran maksimal 2 MB.
-                            </p>
-
-                            @if ($errors->has('transfer_proof'))
-                                <p class="helper" style="color: #C74747;">
-                                    {{ $errors->first('transfer_proof') }}
-                                </p>
-                            @endif
-                        </div>
-
-                        <div class="form-group">
-                            <label for="notes">
-                                Catatan Pesanan
-                                <span style="font-weight: normal; color: #858B80;">
-                                    (Opsional)
-                                </span>
-                            </label>
-
-                            <textarea
-                                name="notes"
-                                id="notes"
-                                maxlength="1000"
-                                placeholder="Contoh: Mohon periksa kondisi produk sebelum dikirim..."
-                            >{{ old('notes') }}</textarea>
-
-                            <p class="helper">
-                                Maksimal 1.000 karakter. Kosongkan jika tidak ada catatan.
-                            </p>
-                        </div>
-
-                        <div class="actions">
-                            <a href="{{ route('cart.index') }}"
-                               class="button secondary">
-                                ← Kembali ke Keranjang
-                            </a>
-
-                            <button type="submit" class="button primary">
-                                Buat Pesanan →
-                            </button>
-                        </div>
-                    </form>
+                    <a href="{{ route('cart.index') }}" class="back-link">
+                        ← Ubah isi keranjang
+                    </a>
                 </div>
-            </section>
+            </aside>
         </div>
 
-        <aside class="card summary-card">
-            <div class="card-header">
-                <h2>Ringkasan Pembayaran</h2>
-                <p>Detail total pesanan kamu.</p>
-            </div>
+        <footer class="footer">
+            Inventory Sales &copy; {{ date('Y') }}. Semua hak dilindungi.
+        </footer>
+    </main>
 
-            <div class="summary-body">
-                <div class="summary-row">
-                    <span>Jenis produk</span>
-                    <strong>{{ $items->count() }} produk</strong>
-                </div>
+    <script>
+        const paymentSelect = document.getElementById('payment_method');
 
-                <div class="summary-row">
-                    <span>Total barang</span>
-                    <strong>{{ $items->sum('quantity') }} barang</strong>
-                </div>
+        const paymentInfos = {
+            cod: document.getElementById('cod-info'),
+            transfer: document.getElementById('transfer-info'),
+            qris: document.getElementById('qris-info'),
+            ewallet: document.getElementById('ewallet-info')
+        };
 
-                <hr class="summary-divider">
+        function updatePaymentInfo() {
+            const selectedMethod = paymentSelect.value;
 
-                <div class="summary-total">
-                    <span>Total Pembayaran</span>
-                    <strong>
-                        Rp{{ number_format((float) $total, 0, ',', '.') }}
-                    </strong>
-                </div>
-
-                <button
-                    type="submit"
-                    form="checkout-form"
-                    class="button primary submit-button"
-                >
-                    Buat Pesanan →
-                </button>
-
-                <p class="summary-note">
-                    Pastikan metode pembayaran dan bukti transfer sudah sesuai sebelum mengirim pesanan.
-                </p>
-
-                <a href="{{ route('cart.index') }}" class="back-link">
-                    ← Ubah isi keranjang
-                </a>
-            </div>
-        </aside>
-
-    </div>
-</main>
-
-<footer>
-    Inventory Sales &copy; {{ date('Y') }}. Semua hak dilindungi.
-</footer>
-
-<script>
-    const paymentSelect = document.getElementById('payment_method');
-    const cashInfo = document.getElementById('cash-info');
-    const transferInfo = document.getElementById('transfer-info');
-    const transferUploadGroup = document.getElementById('transfer-upload-group');
-    const transferProof = document.getElementById('transfer_proof');
-    const checkoutForm = document.getElementById('checkout-form');
-
-    function updatePaymentInfo() {
-        const isTransfer = paymentSelect.value === 'transfer';
-
-        cashInfo.classList.toggle('show', !isTransfer);
-        transferInfo.classList.toggle('show', isTransfer);
-        transferUploadGroup.classList.toggle('show', isTransfer);
-
-        transferProof.required = isTransfer;
-
-        if (!isTransfer) {
-            transferProof.value = '';
-        }
-    }
-
-    paymentSelect.addEventListener('change', updatePaymentInfo);
-    updatePaymentInfo();
-
-    checkoutForm.addEventListener('submit', function (event) {
-        if (paymentSelect.value !== 'transfer') {
-            return;
+            Object.keys(paymentInfos).forEach(function (method) {
+                paymentInfos[method].classList.toggle(
+                    'show',
+                    method === selectedMethod
+                );
+            });
         }
 
-        if (!transferProof.files.length) {
-            event.preventDefault();
-            alert('Silakan upload bukti transfer terlebih dahulu.');
-            transferProof.focus();
-            return;
-        }
-
-        const file = transferProof.files[0];
-        const maxSize = 2 * 1024 * 1024;
-        const allowedTypes = [
-            'image/jpeg',
-            'image/png',
-            'application/pdf'
-        ];
-
-        if (!allowedTypes.includes(file.type)) {
-            event.preventDefault();
-            alert('Format file harus JPG, JPEG, PNG, atau PDF.');
-            transferProof.value = '';
-            transferProof.focus();
-            return;
-        }
-
-        if (file.size > maxSize) {
-            event.preventDefault();
-            alert('Ukuran file maksimal 2 MB.');
-            transferProof.value = '';
-            transferProof.focus();
-        }
-    });
-</script>
-
+        paymentSelect.addEventListener('change', updatePaymentInfo);
+        updatePaymentInfo();
+    </script>
 </body>
 </html>

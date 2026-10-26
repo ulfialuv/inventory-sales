@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -15,7 +15,7 @@
             color: #302526;
         }
 
-        /* SIDEBAR STAFF - DIPERTAHANKAN */
+        /* SIDEBAR STAFF */
         .sidebar {
             width: 225px;
             position: fixed;
@@ -316,7 +316,7 @@
 
         table {
             width: 100%;
-            min-width: 1100px;
+            min-width: 1200px;
             border-collapse: collapse;
             white-space: nowrap;
         }
@@ -360,6 +360,21 @@
 
         .status-pending { background: #fff2d6; color: #8a5a12; }
         .status-cancelled { background: #fde8e7; color: #a12b2b; }
+
+        .status-waiting {
+            background: #dcecff;
+            color: #24558a;
+        }
+
+        .payment-method {
+            display: inline-block;
+            padding: 6px 9px;
+            border-radius: 7px;
+            background: #f3e9d9;
+            color: #6b3039;
+            font-size: 11px;
+            font-weight: bold;
+        }
 
         .proof-link {
             display: inline-block;
@@ -456,7 +471,7 @@
 </head>
 
 <body>
-    <!-- SIDEBAR STAFF: TETAP -->
+    <!-- SIDEBAR STAFF -->
     <aside class="sidebar">
         <div class="brand">
             <div class="brand-icon">I</div>
@@ -500,7 +515,7 @@
         </div>
     </aside>
 
-    <!-- KONTEN KANAN: DIPERBARUI -->
+    <!-- KONTEN KANAN -->
     <main class="main">
         <header class="topbar">
             <div>
@@ -619,6 +634,7 @@
                             <th>Tanggal</th>
                             <th>Pelanggan / Petugas</th>
                             <th>Total</th>
+                            <th>Metode Pembayaran</th>
                             <th>Status Pembayaran</th>
                             <th>Status Pesanan</th>
                             <th>Bukti Transfer</th>
@@ -627,117 +643,249 @@
                     </thead>
 
                     <tbody>
-                        @forelse($sales as $sale)
-                            @php
-                                $paymentStatus = $sale->payment_status ?? 'pending';
-                                $orderStatus = $sale->order_status ?? 'pending';
+                        
+@forelse($sales as $sale)
+    @php
+        $paymentStatus = $sale->payment_status ?? 'pending';
+        $orderStatus = $sale->order_status ?? 'pending';
+        $paymentMethod = $sale->payment_method ?? 'cash';
 
-                                $isCancelled = $orderStatus === 'cancelled';
-                                $isCompleted = $orderStatus === 'completed';
-                                $isPaid = $paymentStatus === 'paid';
-                                $hasProof = !empty($sale->transfer_proof);
+        $isPaid = $paymentStatus === 'paid';
+        $isCancelled = $orderStatus === 'cancelled';
+        $isCompleted = $orderStatus === 'completed';
+        $hasProof = !empty($sale->transfer_proof);
 
-                                $canConfirmPayment =
-                                    !$isCancelled &&
-                                    !$isCompleted &&
-                                    !$isPaid &&
-                                    $hasProof;
+        $isOnlinePayment = in_array(
+            $paymentMethod,
+            ['transfer', 'qris', 'ewallet'],
+            true
+        );
 
-                                $canCancelOrder =
-                                    !$isCancelled &&
-                                    !$isCompleted &&
-                                    !$isPaid &&
-                                    $orderStatus === 'pending';
-                            @endphp
+        $canConfirmPayment =
+            !$isCancelled &&
+            !$isCompleted &&
+            !$isPaid &&
+            $hasProof &&
+            $isOnlinePayment;
 
-                            <tr>
-                                <td>{{ $sales->firstItem() + $loop->index }}</td>
-                                <td class="invoice">{{ $sale->invoice_number }}</td>
-                                <td>
-                                    {{ $sale->sale_date
-                                        ? \Carbon\Carbon::parse($sale->sale_date)->format('d-m-Y')
-                                        : '-' }}
-                                </td>
-                                <td>{{ $sale->user->name ?? '-' }}</td>
-                                <td class="amount">
-                                    Rp {{ number_format((float) $sale->total, 0, ',', '.') }}
-                                </td>
+        $canProcessOrder =
+            !$isCancelled &&
+            !$isCompleted &&
+            $orderStatus === 'pending' &&
+            (!$isOnlinePayment || $isPaid);
 
-                                <td>
-                                    <span class="status {{ $isPaid ? 'status-paid' : 'status-pending' }}">
-                                        {{ $isPaid ? 'Lunas' : 'Belum Dibayar' }}
-                                    </span>
-                                </td>
+        $canShipOrder =
+            !$isCancelled &&
+            !$isCompleted &&
+            $orderStatus === 'processing' &&
+            (!$isOnlinePayment || $isPaid);
 
-                                <td>
-                                    <span class="status {{
-                                        $isCancelled
-                                            ? 'status-cancelled'
-                                            : (($isCompleted || $isPaid)
-                                                ? 'status-completed'
-                                                : 'status-pending')
-                                    }}">
-                                        @if($isCancelled)
-                                            Dibatalkan
-                                        @elseif($isCompleted)
-                                            Selesai
-                                        @elseif($isPaid)
-                                            Lunas
-                                        @else
-                                            Menunggu
-                                        @endif
-                                    </span>
-                                </td>
+        $canCompleteOrder =
+            !$isCancelled &&
+            !$isCompleted &&
+            $orderStatus === 'received' &&
+            ($paymentMethod === 'cod' || $isPaid);
 
-                                <td>
-                                    @if($hasProof)
-                                        <a href="{{ asset('storage/' . $sale->transfer_proof) }}"
-                                            target="_blank" rel="noopener noreferrer"
-                                            class="proof-link">
-                                            Lihat Bukti Transaksi
-                                        </a>
-                                    @else
-                                        <span class="muted">Belum ada bukti</span>
-                                    @endif
-                                </td>
+        $canCancelOrder =
+            !$isCancelled &&
+            !$isCompleted &&
+            !$isPaid &&
+            $orderStatus === 'pending';
 
-                                <td>
-                                    @if($canConfirmPayment)
-                                        <form action="{{ route('sales.confirmPayment', $sale) }}"
-                                            method="POST" class="action-form"
-                                            onsubmit="return confirm('Yakin ingin mengonfirmasi pembayaran transaksi ini?')">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit" class="button success-btn">
-                                                Konfirmasi Pesanan
-                                            </button>
-                                        </form>
-                                    @endif
+        $paymentLabel = match ($paymentStatus) {
+            'paid' => 'Lunas',
+            'waiting_confirmation' => 'Menunggu Konfirmasi',
+            default => 'Belum Dibayar',
+        };
 
-                                    @if($canCancelOrder)
-                                        <form action="{{ route('sales.cancelOrder', $sale) }}"
-                                            method="POST" class="action-form"
-                                            onsubmit="return confirm('Yakin ingin membatalkan pesanan ini?')">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit" class="button danger-btn">
-                                                Batalkan Pesanan
-                                            </button>
-                                        </form>
-                                    @endif
+        $orderLabel = match ($orderStatus) {
+            'pending' => 'Menunggu',
+            'processing' => 'Diproses',
+            'shipped' => 'Dikirim',
+            'received' => 'Diterima',
+            'completed' => 'Selesai',
+            'cancelled' => 'Dibatalkan',
+            default => ucfirst($orderStatus),
+        };
+    @endphp
 
-                                    @if(!$canConfirmPayment && !$canCancelOrder)
-                                        <span class="muted">Tidak ada aksi</span>
-                                    @endif
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="9" class="empty">
-                                    Tidak ada transaksi penjualan pada filter tersebut.
-                                </td>
-                            </tr>
-                        @endforelse
+    <tr>
+        <td>{{ $sales->firstItem() + $loop->index }}</td>
+
+        <td class="invoice">{{ $sale->invoice_number }}</td>
+
+        <td>
+            {{ $sale->sale_date
+                ? \Carbon\Carbon::parse($sale->sale_date)->format('d-m-Y')
+                : '-' }}
+        </td>
+
+        <td>{{ $sale->user->name ?? '-' }}</td>
+
+        <td class="amount">
+            Rp {{ number_format((float) $sale->total, 0, ',', '.') }}
+        </td>
+
+        <td>
+            <span class="payment-method">
+                @switch($paymentMethod)
+                    @case('cash') Tunai @break
+                    @case('cod') COD @break
+                    @case('transfer') Transfer @break
+                    @case('qris') QRIS @break
+                    @case('ewallet') E-Wallet @break
+                    @default {{ ucfirst($paymentMethod) }}
+                @endswitch
+            </span>
+        </td>
+
+        <td>
+            <span class="status {{
+                $isCancelled ? 'status-cancelled' :
+                ($isPaid ? 'status-paid' :
+                ($paymentStatus === 'waiting_confirmation'
+                    ? 'status-waiting' : 'status-pending'))
+            }}">
+                {{ $isCancelled ? 'Dibatalkan' : $paymentLabel }}
+            </span>
+        </td>
+
+        <td>
+            <span class="status {{
+                $isCancelled ? 'status-cancelled' :
+                (in_array($orderStatus, ['completed', 'received'])
+                    ? 'status-completed' : 'status-pending')
+            }}">
+                {{ $orderLabel }}
+            </span>
+        </td>
+
+        <td>
+            @if($hasProof)
+                <a
+                    href="{{ asset('storage/' . $sale->transfer_proof) }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="proof-link">
+                    Lihat Bukti Transfer
+                </a>
+            @else
+                <span class="muted">
+                    {{ $isOnlinePayment ? 'Belum ada bukti' : 'Tidak diperlukan' }}
+                </span>
+            @endif
+        </td>
+
+        <td>
+            @if($canConfirmPayment)
+                <form
+                    action="{{ route('sales.confirmPayment', $sale) }}"
+                    method="POST"
+                    class="action-form"
+                    onsubmit="return confirm('Konfirmasi pembayaran ini?')">
+                    @csrf
+                    @method('PATCH')
+
+                    <button type="submit" class="button success-btn">
+                        Konfirmasi Pembayaran
+                    </button>
+                </form>
+            @endif
+
+            @if($canProcessOrder)
+                <form
+                    action="{{ route('sales.updateOrderStatus', $sale) }}"
+                    method="POST"
+                    class="action-form"
+                    onsubmit="return confirm('Proses pesanan ini?')">
+                    @csrf
+                    @method('PATCH')
+                    <input type="hidden" name="order_status" value="processing">
+
+                    <button type="submit" class="button success-btn">
+                        Proses Pesanan
+                    </button>
+                </form>
+            @endif
+
+            @if($canShipOrder)
+                <form
+                    action="{{ route('sales.updateOrderStatus', $sale) }}"
+                    method="POST"
+                    class="action-form"
+                    onsubmit="return confirm('Kirim pesanan ini?')">
+                    @csrf
+                    @method('PATCH')
+                    <input type="hidden" name="order_status" value="shipped">
+
+                    <button type="submit" class="button">
+                        Kirim Pesanan
+                    </button>
+                </form>
+            @endif
+
+            @if($canCompleteOrder)
+                <form
+                    action="{{ route('sales.completeOrder', $sale) }}"
+                    method="POST"
+                    class="action-form"
+                    onsubmit="return confirm('Selesaikan pesanan ini?')">
+                    @csrf
+                    @method('PATCH')
+
+                    <button type="submit" class="button success-btn">
+                        Selesaikan Pesanan
+                    </button>
+                </form>
+            @endif
+
+            @if($canCancelOrder)
+                <form
+                    action="{{ route('sales.cancelOrder', $sale) }}"
+                    method="POST"
+                    class="action-form"
+                    onsubmit="return confirm('Batalkan pesanan ini?')">
+                    @csrf
+                    @method('PATCH')
+
+                    <button type="submit" class="button danger-btn">
+                        Batalkan Pesanan
+                    </button>
+                </form>
+            @endif
+
+            @if(
+                !$canConfirmPayment &&
+                !$canProcessOrder &&
+                !$canShipOrder &&
+                !$canCompleteOrder &&
+                !$canCancelOrder
+            )
+                <span class="muted">
+                    @if($isCancelled)
+                        Pesanan dibatalkan
+                    @elseif($isCompleted)
+                        Pesanan selesai
+                    @elseif($orderStatus === 'shipped')
+                        Menunggu konfirmasi pembeli
+                    @elseif($orderStatus === 'received')
+                        Menunggu penyelesaian
+                    @elseif($isOnlinePayment && !$hasProof && !$isPaid)
+                        Menunggu bukti pembayaran
+                    @else
+                        Tidak ada aksi
+                    @endif
+                </span>
+            @endif
+        </td>
+    </tr>
+@empty
+    <tr>
+        <td colspan="10" class="empty">
+            Tidak ada transaksi penjualan pada filter tersebut.
+        </td>
+    </tr>
+@endforelse
                     </tbody>
                 </table>
             </div>
