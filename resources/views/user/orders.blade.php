@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pesanan Saya | Inventory Sales</title>
+    <title>Pesanan Saya | Ranitha Stuff</title>
 
     <style>
         * { box-sizing: border-box; }
@@ -469,10 +469,10 @@
 
     <aside class="sidebar">
         <div class="brand">
-            <div class="brand-icon">I</div>
+            <div class="brand-icon">R</div>
             <div>
-                <h2>Inventory Sales</h2>
-                <small>Customer Portal</small>
+                <h2>Ranitha Stuff</h2>
+                <small>Skincare &amp; Beauty Store</small>
             </div>
         </div>
 
@@ -505,10 +505,10 @@
 
         <header class="topbar">
             <div>
-                <div class="eyebrow">Inventory Sales</div>
+                <div class="eyebrow">Ranitha Stuff</div>
                 <h1>Pesanan Saya</h1>
                 <div class="muted">
-                    Pantau status pembayaran dan rincian pesananmu.
+                    Pantau status pembayaran dan rincian pesanan skincare kamu.
                 </div>
             </div>
 
@@ -549,7 +549,7 @@
         <section class="section-heading">
             <div>
                 <h2>Daftar Pesanan 📦</h2>
-                <p>Semua pesanan yang kamu buat akan ditampilkan di sini.</p>
+                <p>Semua pesanan skincare yang kamu buat akan ditampilkan di sini.</p>
             </div>
 
             <a href="{{ route('user.dashboard') }}" class="btn btn-primary">
@@ -797,8 +797,8 @@
                 <div class="empty-icon">🛍️</div>
                 <h3>Belum Ada Pesanan</h3>
                 <p>
-                    Pesanan yang kamu buat akan muncul di halaman ini.
-                    Yuk, cari produk yang kamu butuhkan.
+                    Pesanan skincare yang kamu buat akan muncul di halaman ini.
+                    Yuk, temukan produk perawatan kulit favoritmu di Ranitha Stuff.
                 </p>
                 <a href="{{ route('user.dashboard') }}" class="btn btn-primary">
                     Mulai Belanja →
@@ -814,7 +814,7 @@
         @endif
 
         <footer class="footer">
-            Inventory Sales &copy; {{ date('Y') }}
+            Ranitha Stuff &copy; {{ date('Y') }}. Semua hak dilindungi.
         </footer>
 
     </main>

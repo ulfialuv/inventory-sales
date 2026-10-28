@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transaksi Pembelian | Inventory Sales</title>
+    <title>Transaksi Pembelian | Ranitha Stuff</title>
 
     <style>
         * {
@@ -17,7 +17,7 @@
             color: #302526;
         }
 
-        /* SIDEBAR STAFF */
+        /* SIDEBAR */
         .sidebar {
             width: 225px;
             position: fixed;
@@ -108,13 +108,14 @@
             color: white;
             font-size: 13px;
             cursor: pointer;
+            transition: background 0.2s;
         }
 
         .logout-button:hover {
             background: #78404a;
         }
 
-        /* KONTEN KANAN */
+        /* KONTEN */
         .main {
             margin-left: 225px;
             padding: 30px 34px;
@@ -159,6 +160,7 @@
             background: #fffdf9;
             border: 1px solid #ece2d7;
             border-radius: 10px;
+            flex-shrink: 0;
         }
 
         .avatar {
@@ -196,6 +198,7 @@
             font-size: 12px;
             cursor: pointer;
             white-space: nowrap;
+            transition: background 0.2s;
         }
 
         .button:hover {
@@ -399,6 +402,7 @@
             white-space: normal;
         }
 
+        /* PAGINATION */
         .pagination {
             margin-top: 18px;
         }
@@ -430,6 +434,13 @@
             background: #6b3039;
             color: white;
             border-color: #6b3039;
+        }
+
+        .footer {
+            padding: 25px 10px 10px;
+            color: #a1948c;
+            text-align: center;
+            font-size: 11px;
         }
 
         /* RESPONSIVE */
@@ -475,6 +486,11 @@
                 font-size: 25px;
             }
 
+            .topbar .button {
+                width: 100%;
+                text-align: center;
+            }
+
             .filter-form {
                 flex-direction: column;
                 align-items: stretch;
@@ -484,9 +500,19 @@
                 width: 100%;
             }
 
+            .filter-form .button,
+            .filter-form .button-light {
+                width: 100%;
+            }
+
             .filter-panel,
             .table-panel {
                 padding: 13px;
+            }
+
+            .table-heading {
+                align-items: flex-start;
+                flex-direction: column;
             }
         }
     </style>
@@ -496,10 +522,10 @@
 
     <aside class="sidebar">
         <div class="brand">
-            <div class="brand-icon">I</div>
+            <div class="brand-icon">R</div>
             <div>
-                <h2>Inventory Sales</h2>
-                <p>Management System</p>
+                <h2>Ranitha Stuff</h2>
+                <p>Skincare &amp; Beauty Store</p>
             </div>
         </div>
 
@@ -541,10 +567,10 @@
 
         <header class="topbar">
             <div>
-                <div class="eyebrow">Inventory Sales</div>
+                <div class="eyebrow">Ranitha Stuff</div>
                 <h1>Transaksi Pembelian</h1>
                 <div class="muted">
-                    Kelola transaksi pembelian barang dari pemasok.
+                    Kelola pencatatan pembelian produk skincare dari pemasok.
                 </div>
             </div>
 
@@ -591,20 +617,22 @@
         <section class="summary">
             <div class="summary-card">
                 <small>Total Transaksi Pembelian</small>
+
                 <div class="summary-number">
                     {{ $purchases->total() }}
                 </div>
-                <small>Jumlah transaksi tercatat</small>
+
+                <small>Jumlah transaksi yang tercatat</small>
             </div>
 
             <div class="summary-info">
                 <div class="table-panel" style="height: 100%;">
-                    <h3>Kelola Transaksi Pembelian</h3>
+                    <h3>Kelola Pembelian Ranitha Stuff</h3>
                     <p>
                         Halaman ini digunakan untuk melihat transaksi pembelian
-                        barang dari pemasok. Gunakan filter tanggal untuk mencari
-                        transaksi pada periode tertentu. Kamu juga bisa menambahkan
-                        transaksi pembelian melalui tombol di atas.
+                        produk skincare dari pemasok. Gunakan filter tanggal
+                        untuk mencari transaksi pada periode tertentu. Kamu juga
+                        bisa menambahkan transaksi melalui tombol Tambah Pembelian.
                     </p>
                 </div>
             </div>
@@ -651,7 +679,7 @@
         <section class="table-panel">
             <div class="table-heading">
                 <h3>Daftar Transaksi Pembelian</h3>
-                <span class="muted">Riwayat pembelian barang</span>
+                <span class="muted">Riwayat pembelian produk</span>
             </div>
 
             <p class="result-info">
@@ -703,7 +731,7 @@
                         @empty
                             <tr>
                                 <td colspan="6" class="empty">
-                                    Tidak ada transaksi pembelian pada tanggal tersebut.
+                                    Belum ada transaksi pembelian pada periode ini.
                                 </td>
                             </tr>
                         @endforelse
@@ -712,9 +740,13 @@
             </div>
 
             <div class="pagination">
-                {{ $purchases->links() }}
+                {{ $purchases->withQueryString()->links() }}
             </div>
         </section>
+
+        <footer class="footer">
+            Ranitha Stuff &copy; {{ date('Y') }}. Semua hak dilindungi.
+        </footer>
 
     </main>
 </body>

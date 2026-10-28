@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Staff | Inventory Sales</title>
+    <title>Dashboard Staff | Ranitha Stuff</title>
 
     <style>
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
         body {
             margin: 0;
@@ -48,7 +50,10 @@
             flex-shrink: 0;
         }
 
-        .brand h2 { font-size: 16px; margin: 0; }
+        .brand h2 {
+            font-size: 16px;
+            margin: 0;
+        }
 
         .brand p {
             font-size: 10px;
@@ -102,9 +107,12 @@
             color: white;
             font-size: 13px;
             cursor: pointer;
+            transition: background 0.2s;
         }
 
-        .logout-button:hover { background: #78404a; }
+        .logout-button:hover {
+            background: #78404a;
+        }
 
         .main {
             margin-left: 225px;
@@ -164,7 +172,10 @@
             font-weight: 700;
         }
 
-        .user-name { font-size: 12px; font-weight: 700; }
+        .user-name {
+            font-size: 12px;
+            font-weight: 700;
+        }
 
         .user-role {
             font-size: 11px;
@@ -233,7 +244,9 @@
             margin: 0;
         }
 
-        .section-heading p { margin: 5px 0 0; }
+        .section-heading p {
+            margin: 5px 0 0;
+        }
 
         .cards {
             display: grid;
@@ -269,7 +282,10 @@
             margin-bottom: 17px;
         }
 
-        .card h3 { font-size: 15px; margin: 0 0 8px; }
+        .card h3 {
+            font-size: 15px;
+            margin: 0 0 8px;
+        }
 
         .card p {
             font-size: 12px;
@@ -306,8 +322,17 @@
             margin: 0;
         }
 
+        .footer {
+            text-align: center;
+            color: #a1948c;
+            font-size: 11px;
+            padding: 28px 10px 12px;
+        }
+
         @media (max-width: 1000px) {
-            .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .cards {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
         }
 
         @media (max-width: 800px) {
@@ -317,7 +342,9 @@
                 padding: 20px;
             }
 
-            .brand { margin-bottom: 15px; }
+            .brand {
+                margin-bottom: 15px;
+            }
 
             .sidebar-bottom {
                 margin-top: 15px;
@@ -336,13 +363,25 @@
                 flex-direction: column;
             }
 
-            .topbar h1 { font-size: 25px; }
+            .topbar h1 {
+                font-size: 25px;
+            }
 
-            .cards { grid-template-columns: 1fr; }
+            .cards {
+                grid-template-columns: 1fr;
+            }
 
-            .welcome-panel { padding: 24px; }
+            .welcome-panel {
+                padding: 24px;
+            }
 
-            .welcome-panel h2 { font-size: 23px; }
+            .welcome-panel h2 {
+                font-size: 23px;
+            }
+
+            .user-badge {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -350,10 +389,10 @@
 
     <aside class="sidebar">
         <div class="brand">
-            <div class="brand-icon">I</div>
+            <div class="brand-icon">R</div>
             <div>
-                <h2>Inventory Sales</h2>
-                <p>Management System</p>
+                <h2>Ranitha Stuff</h2>
+                <p>Skincare &amp; Beauty Store</p>
             </div>
         </div>
 
@@ -392,10 +431,10 @@
     <main class="main">
         <header class="topbar">
             <div>
-                <div class="eyebrow">Inventory Sales</div>
+                <div class="eyebrow">Ranitha Stuff</div>
                 <h1>Dashboard Staff</h1>
                 <div class="muted">
-                    Ringkasan aktivitas dan pengelolaan persediaan.
+                    Ringkasan aktivitas dan pengelolaan produk skincare.
                 </div>
             </div>
 
@@ -414,9 +453,10 @@
             <div class="welcome-label">Selamat Datang</div>
             <h2>Halo, {{ auth()->user()->name }}!</h2>
             <p>
-                Selamat bekerja. Gunakan dashboard ini untuk melihat data
-                produk serta membantu proses pembelian dan penjualan.
-                Pastikan setiap transaksi dicatat dengan benar.
+                Selamat bekerja di Ranitha Stuff. Gunakan dashboard ini
+                untuk melihat data produk skincare dan membantu proses
+                pembelian serta penjualan. Pastikan setiap produk dan
+                transaksi dicatat dengan benar.
             </p>
         </section>
 
@@ -432,8 +472,8 @@
                 <div class="card-icon">▦</div>
                 <h3>Data Produk</h3>
                 <p>
-                    Lihat informasi produk, kode SKU, harga, dan stok barang
-                    yang tersedia.
+                    Lihat informasi produk skincare, kode SKU, harga,
+                    dan stok produk yang tersedia.
                 </p>
                 <span class="card-link">Lihat Produk →</span>
             </a>
@@ -442,7 +482,8 @@
                 <div class="card-icon">⇩</div>
                 <h3>Pembelian</h3>
                 <p>
-                    Buka menu pembelian untuk membantu pencatatan barang masuk.
+                    Buka menu pembelian untuk membantu mencatat produk
+                    skincare yang masuk ke toko.
                 </p>
                 <span class="card-link">Kelola Pembelian →</span>
             </a>
@@ -451,8 +492,8 @@
                 <div class="card-icon">⇧</div>
                 <h3>Penjualan</h3>
                 <p>
-                    Buka menu penjualan untuk membantu pencatatan transaksi
-                    barang keluar.
+                    Buka menu penjualan untuk membantu mencatat transaksi
+                    produk skincare yang terjual.
                 </p>
                 <span class="card-link">Kelola Penjualan →</span>
             </a>
@@ -462,10 +503,16 @@
             <h3>Informasi Staff</h3>
             <p>
                 Gunakan akun sesuai hak akses yang diberikan. Periksa kembali
-                jumlah barang dan data transaksi sebelum menyimpan perubahan
-                agar informasi persediaan tetap akurat.
+                jumlah stok, harga produk, dan data transaksi sebelum
+                menyimpan perubahan agar informasi persediaan Ranitha Stuff
+                tetap akurat.
             </p>
         </section>
+
+        <footer class="footer">
+            Ranitha Stuff &copy; {{ date('Y') }}. Semua hak dilindungi.
+        </footer>
     </main>
+
 </body>
 </html>

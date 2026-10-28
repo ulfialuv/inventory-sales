@@ -77,6 +77,7 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        // Validasi data produk baru
         $validated = $request->validate([
             'sku' => [
                 'required',
@@ -84,40 +85,74 @@ class ProductController extends Controller
                 'max:50',
                 'unique:products,sku',
             ],
+
             'name' => [
                 'required',
                 'string',
                 'max:150',
+                'unique:products,name',
             ],
+
             'category_id' => [
                 'required',
                 'exists:categories,id',
             ],
+
             'purchase_price' => [
                 'required',
                 'numeric',
                 'min:0',
             ],
+
             'selling_price' => [
                 'required',
                 'numeric',
-                'min:0',
+                'gt:purchase_price',
             ],
+
             'stock' => [
                 'required',
                 'integer',
                 'min:0',
             ],
+
             'minimum_stock' => [
                 'required',
                 'integer',
                 'min:0',
             ],
+        ], [
+            'sku.required' => 'Kode SKU wajib diisi.',
+            'sku.unique' => 'Kode SKU sudah digunakan oleh produk lain.',
+
+            'name.required' => 'Nama produk wajib diisi.',
+            'name.unique' => 'Nama produk sudah terdaftar. Silakan gunakan nama produk yang berbeda.',
+
+            'category_id.required' => 'Kategori wajib dipilih.',
+            'category_id.exists' => 'Kategori yang dipilih tidak ditemukan.',
+
+            'purchase_price.required' => 'Harga beli wajib diisi.',
+            'purchase_price.numeric' => 'Harga beli harus berupa angka.',
+            'purchase_price.min' => 'Harga beli tidak boleh kurang dari nol.',
+
+            'selling_price.required' => 'Harga jual wajib diisi.',
+            'selling_price.numeric' => 'Harga jual harus berupa angka.',
+            'selling_price.gt' => 'Harga jual harus lebih tinggi daripada harga beli.',
+
+            'stock.required' => 'Stok awal wajib diisi.',
+            'stock.integer' => 'Stok awal harus berupa bilangan bulat.',
+            'stock.min' => 'Stok awal tidak boleh kurang dari nol.',
+
+            'minimum_stock.required' => 'Batas minimum stok wajib diisi.',
+            'minimum_stock.integer' => 'Batas minimum stok harus berupa bilangan bulat.',
+            'minimum_stock.min' => 'Batas minimum stok tidak boleh kurang dari nol.',
         ]);
 
+        // Menyimpan produk jika semua validasi berhasil
         Product::create($validated);
 
-        return redirect()->route('products.index')
+        return redirect()
+            ->route('products.index')
             ->with('success', 'Produk berhasil ditambahkan.');
     }
 
@@ -133,6 +168,7 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
+        // Validasi data saat produk diperbarui
         $validated = $request->validate([
             'sku' => [
                 'required',
@@ -140,40 +176,74 @@ class ProductController extends Controller
                 'max:50',
                 Rule::unique('products', 'sku')->ignore($product->id),
             ],
+
             'name' => [
                 'required',
                 'string',
                 'max:150',
+                Rule::unique('products', 'name')->ignore($product->id),
             ],
+
             'category_id' => [
                 'required',
                 'exists:categories,id',
             ],
+
             'purchase_price' => [
                 'required',
                 'numeric',
                 'min:0',
             ],
+
             'selling_price' => [
                 'required',
                 'numeric',
-                'min:0',
+                'gt:purchase_price',
             ],
+
             'stock' => [
                 'required',
                 'integer',
                 'min:0',
             ],
+
             'minimum_stock' => [
                 'required',
                 'integer',
                 'min:0',
             ],
+        ], [
+            'sku.required' => 'Kode SKU wajib diisi.',
+            'sku.unique' => 'Kode SKU sudah digunakan oleh produk lain.',
+
+            'name.required' => 'Nama produk wajib diisi.',
+            'name.unique' => 'Nama produk sudah digunakan oleh produk lain.',
+
+            'category_id.required' => 'Kategori wajib dipilih.',
+            'category_id.exists' => 'Kategori yang dipilih tidak ditemukan.',
+
+            'purchase_price.required' => 'Harga beli wajib diisi.',
+            'purchase_price.numeric' => 'Harga beli harus berupa angka.',
+            'purchase_price.min' => 'Harga beli tidak boleh kurang dari nol.',
+
+            'selling_price.required' => 'Harga jual wajib diisi.',
+            'selling_price.numeric' => 'Harga jual harus berupa angka.',
+            'selling_price.gt' => 'Harga jual harus lebih tinggi daripada harga beli.',
+
+            'stock.required' => 'Stok wajib diisi.',
+            'stock.integer' => 'Stok harus berupa bilangan bulat.',
+            'stock.min' => 'Stok tidak boleh kurang dari nol.',
+
+            'minimum_stock.required' => 'Batas minimum stok wajib diisi.',
+            'minimum_stock.integer' => 'Batas minimum stok harus berupa bilangan bulat.',
+            'minimum_stock.min' => 'Batas minimum stok tidak boleh kurang dari nol.',
         ]);
 
+        // Memperbarui produk jika semua validasi berhasil
         $product->update($validated);
 
-        return redirect()->route('products.index')
+        return redirect()
+            ->route('products.index')
             ->with('success', 'Produk berhasil diperbarui.');
     }
 
@@ -184,7 +254,8 @@ class ProductController extends Controller
             $product->purchaseItems()->exists() ||
             $product->saleItems()->exists()
         ) {
-            return redirect()->route('products.index')
+            return redirect()
+                ->route('products.index')
                 ->with(
                     'error',
                     'Produk tidak dapat dihapus karena sudah digunakan dalam transaksi.'
@@ -193,7 +264,8 @@ class ProductController extends Controller
 
         $product->delete();
 
-        return redirect()->route('products.index')
+        return redirect()
+            ->route('products.index')
             ->with('success', 'Produk berhasil dihapus.');
     }
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Penjualan | Inventory Sales</title>
+    <title>Tambah Penjualan | Ranitha Stuff</title>
 
     <style>
         * { box-sizing: border-box; }
@@ -462,14 +462,14 @@
     <aside class="sidebar {{ $isAdmin ? '' : 'staff-sidebar' }}">
 
         <div class="brand">
-            <div class="brand-icon">I</div>
+            <div class="brand-icon">R</div>
             <div>
-                <h2>Inventory Sales</h2>
+                <h2>Ranitha Stuff</h2>
 
                 @if ($isAdmin)
-                    <small>Management System</small>
+                    <small>Skincare & Beauty Store</small>
                 @else
-                    <p>Management System</p>
+                    <p>Skincare & Beauty Store</p>
                 @endif
             </div>
         </div>
@@ -576,10 +576,10 @@
 
         <header class="topbar">
             <div>
-                <div class="eyebrow">Inventory Sales</div>
+                <div class="eyebrow">Ranitha Stuff</div>
                 <h1>Tambah Penjualan</h1>
                 <div class="muted">
-                    Catat transaksi penjualan produk kepada pembeli.
+                    Catat transaksi penjualan produk skincare kepada pembeli.
                 </div>
             </div>
 

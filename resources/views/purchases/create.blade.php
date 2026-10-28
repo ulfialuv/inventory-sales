@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Pembelian | Inventory Sales</title>
+    <title>Tambah Pembelian | Ranitha Stuff</title>
 
     <style>
         * { box-sizing: border-box; }
@@ -462,14 +462,14 @@
     <aside class="sidebar {{ $isAdmin ? '' : 'staff-sidebar' }}">
 
         <div class="brand">
-            <div class="brand-icon">I</div>
+            <div class="brand-icon">R</div>
             <div>
-                <h2>Inventory Sales</h2>
+                <h2>Ranitha Stuff</h2>
 
                 @if ($isAdmin)
-                    <small>Management System</small>
+                    <small>Skincare & Beauty Store</small>
                 @else
-                    <p>Management System</p>
+                    <p>Skincare & Beauty Store</p>
                 @endif
             </div>
         </div>
@@ -576,10 +576,10 @@
 
         <header class="topbar">
             <div>
-                <div class="eyebrow">Manajemen Inventory</div>
+                <div class="eyebrow">Ranitha Stuff</div>
                 <h1>Tambah Transaksi Pembelian</h1>
                 <div class="muted">
-                    Catat pembelian produk dari pemasok untuk menambah stok toko.
+                    Catat pembelian produk skincare dari pemasok untuk menambah stok toko.
                 </div>
             </div>
 
@@ -603,7 +603,7 @@
 
             <div class="form-heading">
                 <h3>Informasi Pembelian</h3>
-                <p>Isi informasi pemasok dan barang yang dibeli dengan benar.</p>
+                <p>Isi informasi pemasok dan produk yang dibeli dengan benar.</p>
             </div>
 
             <form action="{{ route('purchases.store') }}" method="POST">

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Transaksi | Inventory Sales</title>
+    <title>Laporan Transaksi | Ranitha Stuff</title>
 
     <style>
         * { box-sizing: border-box; }
@@ -15,7 +15,6 @@
             color: #302526;
         }
 
-        /* SIDEBAR - DISAMAKAN DENGAN TRANSAKSI PENJUALAN */
         .sidebar {
             position: fixed;
             inset: 0 auto 0 0;
@@ -47,15 +46,8 @@
             font-weight: bold;
         }
 
-        .brand h2 {
-            margin: 0;
-            font-size: 17px;
-        }
-
-        .brand small {
-            color: #d9c5c1;
-            font-size: 11px;
-        }
+        .brand h2 { margin: 0; font-size: 17px; }
+        .brand small { color: #d9c5c1; font-size: 11px; }
 
         .nav-title {
             margin: 24px 10px 10px;
@@ -77,9 +69,7 @@
         }
 
         .sidebar a:hover,
-        .sidebar a.active {
-            background: #78404a;
-        }
+        .sidebar a.active { background: #78404a; }
 
         .nav-icon {
             width: 20px;
@@ -105,11 +95,8 @@
             font-size: 12px;
         }
 
-        .logout button:hover {
-            background: #78404a;
-        }
+        .logout button:hover { background: #78404a; }
 
-        /* KONTEN UTAMA */
         .main {
             max-width: 1600px;
             margin-left: 225px;
@@ -145,62 +132,63 @@
             line-height: 1.6;
         }
 
-        .button {
+        .button,
+        .button-light,
+        .print-button {
             display: inline-block;
             padding: 11px 15px;
             border: 0;
             border-radius: 8px;
+            font-family: inherit;
+            font-size: 12px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .button {
             background: #6b3039;
             color: white;
-            text-decoration: none;
-            font-size: 12px;
-            cursor: pointer;
-            text-align: center;
-            white-space: nowrap;
         }
 
-        .button:hover {
-            background: #54232b;
-        }
+        .button:hover { background: #54232b; }
 
         .button-light {
-            display: inline-block;
-            padding: 11px 14px;
             border: 1px solid #e4d8cc;
-            border-radius: 8px;
             background: #f7f0e7;
             color: #54232b;
-            text-decoration: none;
-            text-align: center;
-            font-size: 12px;
-            cursor: pointer;
-            white-space: nowrap;
         }
 
-        .button-light:hover {
-            background: #eee2d3;
+        .button-light:hover { background: #eee2d3; }
+
+        .print-button {
+            background: #b99556;
+            color: #302526;
+            font-weight: 600;
         }
 
-        .notice {
-            padding: 13px 16px;
-            margin-bottom: 16px;
-            border-radius: 9px;
-            background: #e8f4e8;
-            color: #286338;
-            font-size: 13px;
-        }
+        .print-button:hover { background: #a98243; }
 
+        .notice,
         .error {
             padding: 13px 16px;
             margin-bottom: 16px;
             border-radius: 9px;
+            font-size: 13px;
+        }
+
+        .notice {
+            background: #e8f4e8;
+            color: #286338;
+        }
+
+        .error {
             background: #f9e6e3;
             color: #a13f38;
-            font-size: 13px;
             line-height: 1.7;
         }
 
-        /* FILTER PERIODE */
         .filter-panel,
         .table-panel {
             padding: 20px;
@@ -209,9 +197,7 @@
             background: #fffdf9;
         }
 
-        .filter-panel {
-            margin-bottom: 18px;
-        }
+        .filter-panel { margin-bottom: 18px; }
 
         .filter-panel h3,
         .table-heading h3 {
@@ -219,9 +205,7 @@
             font-size: 15px;
         }
 
-        .filter-panel h3 {
-            margin-bottom: 17px;
-        }
+        .filter-panel h3 { margin-bottom: 17px; }
 
         .filters {
             display: grid;
@@ -254,7 +238,6 @@
             border-color: #b99556;
         }
 
-        /* RINGKASAN */
         .summary {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -281,9 +264,7 @@
             background: #b99556;
         }
 
-        .summary-card.purchase::before {
-            background: #6b3039;
-        }
+        .summary-card.purchase::before { background: #6b3039; }
 
         .summary-top {
             display: flex;
@@ -311,9 +292,7 @@
             flex-shrink: 0;
         }
 
-        .purchase .summary-icon {
-            background: #f1e3e1;
-        }
+        .purchase .summary-icon { background: #f1e3e1; }
 
         .amount {
             margin: 14px 0 8px;
@@ -323,13 +302,8 @@
             overflow-wrap: anywhere;
         }
 
-        .section {
-            margin-top: 20px;
-        }
-
-        .table-panel {
-            margin-bottom: 20px;
-        }
+        .section { margin-top: 20px; }
+        .table-panel { margin-bottom: 20px; }
 
         .table-heading {
             display: flex;
@@ -339,14 +313,8 @@
             margin-bottom: 17px;
         }
 
-        .table-heading h3 {
-            color: #302526;
-        }
-
-        /* TABEL */
-        .table-wrap {
-            overflow-x: auto;
-        }
+        .table-heading h3 { color: #302526; }
+        .table-wrap { overflow-x: auto; }
 
         table {
             width: 100%;
@@ -370,19 +338,10 @@
             vertical-align: middle;
         }
 
-        tbody tr:hover {
-            background: #fcf8f2;
-        }
+        tbody tr:hover { background: #fcf8f2; }
+        tbody tr:last-child td { border-bottom: none; }
 
-        tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        .invoice {
-            color: #54232b;
-            font-weight: 600;
-        }
-
+        .invoice,
         .money {
             color: #54232b;
             font-weight: 600;
@@ -395,7 +354,6 @@
             white-space: normal;
         }
 
-        /* PAGINATION */
         .pagination {
             padding-top: 18px;
             overflow-x: auto;
@@ -437,20 +395,16 @@
             font-size: 11px;
         }
 
-        /* RESPONSIVE - SIDEBAR SAMA DENGAN HALAMAN PENJUALAN */
+        /* Pengaturan tampilan di layar kecil */
         @media (max-width: 1100px) {
-            .sidebar {
-                width: 200px;
-            }
+            .sidebar { width: 200px; }
 
             .main {
                 margin-left: 200px;
                 padding: 24px 20px;
             }
 
-            .filters {
-                grid-template-columns: 1fr 1fr;
-            }
+            .filters { grid-template-columns: 1fr 1fr; }
         }
 
         @media (max-width: 800px) {
@@ -461,9 +415,7 @@
                 padding: 20px 18px;
             }
 
-            .sidebar .nav-title {
-                margin-top: 15px;
-            }
+            .sidebar .nav-title { margin-top: 15px; }
 
             .logout {
                 position: static;
@@ -475,16 +427,10 @@
                 padding: 20px;
             }
 
-            .summary {
-                grid-template-columns: 1fr;
-            }
+            .summary { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 700px) {
-            .sidebar {
-                padding: 20px 18px;
-            }
-
             .main {
                 margin-left: 0;
                 padding: 20px 14px;
@@ -495,31 +441,176 @@
                 flex-direction: column;
             }
 
-            .filters {
-                grid-template-columns: 1fr;
-            }
+            .filters { grid-template-columns: 1fr; }
 
             .filters .button,
-            .filters .button-light {
-                width: 100%;
-            }
+            .filters .button-light { width: 100%; }
 
-            .summary {
-                grid-template-columns: 1fr;
-            }
+            .summary { grid-template-columns: 1fr; }
 
             .filter-panel,
-            .table-panel {
-                padding: 15px;
-            }
+            .table-panel { padding: 15px; }
 
-            h1 {
-                font-size: 26px;
-            }
+            h1 { font-size: 26px; }
 
             .table-heading {
                 align-items: flex-start;
                 flex-direction: column;
+            }
+        }
+
+        /* KHUSUS SAAT LAPORAN DICETAK */
+        @page {
+            size: A4 landscape;
+            margin: 12mm;
+        }
+
+        @media print {
+            body {
+                background: #fff !important;
+                color: #000 !important;
+                font-family: Arial, sans-serif;
+                font-size: 10pt;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .sidebar,
+            .filter-panel,
+            .print-button,
+            .pagination,
+            .footer,
+            .notice,
+            .error {
+                display: none !important;
+            }
+
+            .main {
+                max-width: none;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .topbar {
+                display: block;
+                margin-bottom: 15px;
+                padding-bottom: 12px;
+                border-bottom: 2px solid #54232b;
+            }
+
+            .eyebrow {
+                color: #54232b !important;
+                font-size: 9pt;
+            }
+
+            h1 {
+                margin: 4px 0;
+                color: #54232b !important;
+                font-size: 21pt;
+            }
+
+            .muted {
+                color: #444 !important;
+                font-size: 9pt;
+            }
+
+            .summary {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+                margin-bottom: 15px;
+            }
+
+            .summary-card {
+                padding: 12px;
+                border: 1px solid #aaa;
+                border-radius: 0;
+                background: #fff !important;
+                break-inside: avoid;
+            }
+
+            .summary-card::before { display: none; }
+
+            .summary-title {
+                color: #333 !important;
+                font-size: 10pt;
+            }
+
+            .summary-icon { display: none; }
+
+            .amount {
+                margin: 8px 0 4px;
+                color: #000 !important;
+                font-size: 16pt;
+            }
+
+            .section { margin-top: 14px; }
+
+            .table-panel {
+                padding: 0;
+                margin-bottom: 18px;
+                border: none;
+                border-radius: 0;
+                background: #fff !important;
+                break-inside: auto;
+            }
+
+            .table-heading {
+                margin-bottom: 8px;
+                break-after: avoid;
+            }
+
+            .table-heading h3 {
+                color: #000 !important;
+                font-size: 12pt;
+            }
+
+            .table-wrap { overflow: visible; }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                white-space: normal;
+                table-layout: auto;
+            }
+
+            thead { display: table-header-group; }
+
+            tr {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            th {
+                padding: 7px 6px;
+                border: 1px solid #777;
+                background: #eee !important;
+                color: #000 !important;
+                font-size: 8pt;
+            }
+
+            td {
+                padding: 7px 6px;
+                border: 1px solid #aaa;
+                color: #000 !important;
+                font-size: 8pt;
+                overflow-wrap: anywhere;
+            }
+
+            .invoice,
+            .money {
+                color: #000 !important;
+            }
+
+            tbody tr:hover { background: #fff !important; }
+
+            .empty {
+                padding: 12px;
+                color: #333 !important;
+            }
+
+            a {
+                color: #000 !important;
+                text-decoration: none !important;
             }
         }
     </style>
@@ -528,10 +619,10 @@
 <body>
     <aside class="sidebar">
         <div class="brand">
-            <div class="brand-icon">I</div>
+            <div class="brand-icon">R</div>
             <div>
-                <h2>Inventory Sales</h2>
-                <small>Management System</small>
+                <h2>Ranitha Stuff</h2>
+                <small>Skincare &amp; Beauty Store</small>
             </div>
         </div>
 
@@ -582,12 +673,20 @@
     <main class="main">
         <div class="topbar">
             <div>
-                <div class="eyebrow">Manajemen Inventory</div>
+                <div class="eyebrow">Ranitha Stuff</div>
                 <h1>Laporan Transaksi</h1>
                 <div class="muted">
-                    Ringkasan dan riwayat pembelian serta penjualan.
+                    Ringkasan dan riwayat pembelian serta penjualan produk skincare dan kecantikan.
                 </div>
             </div>
+
+            <button
+                type="button"
+                class="print-button"
+                onclick="window.print()"
+            >
+                🖨 Cetak Laporan
+            </button>
         </div>
 
         @if(session('success'))
@@ -771,7 +870,7 @@
         </section>
 
         <div class="footer">
-            Inventory Sales &copy; {{ date('Y') }} — Management System
+            Ranitha Stuff &copy; {{ date('Y') }} — Skincare &amp; Beauty Store
         </div>
     </main>
 </body>

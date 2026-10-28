@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Pengguna | Inventory Sales</title>
+    <title>Edit Pengguna | Ranitha Stuff</title>
 
     <style>
         * { box-sizing: border-box; }
@@ -305,10 +305,10 @@
 <body>
     <aside class="sidebar">
         <div class="brand">
-            <div class="brand-icon">I</div>
+            <div class="brand-icon">R</div>
             <div>
-                <h2>Inventory Sales</h2>
-                <small>Management System</small>
+                <h2>Ranitha Stuff</h2>
+                <small>Skincare &amp; Beauty Store</small>
             </div>
         </div>
 
@@ -359,10 +359,10 @@
     <main class="main">
         <div class="topbar">
             <div>
-                <div class="eyebrow">Manajemen Inventory</div>
+                <div class="eyebrow">Ranitha Stuff</div>
                 <h1>Edit Pengguna</h1>
                 <div class="muted">
-                    Perbarui informasi akun pengguna Inventory Sales.
+                    Perbarui informasi akun pengguna Ranitha Stuff.
                 </div>
             </div>
 

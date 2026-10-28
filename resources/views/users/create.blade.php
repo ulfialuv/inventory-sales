@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Pengguna | Inventory Sales</title>
+    <title>Tambah Pengguna | Ranitha Stuff</title>
 
     <style>
         * { box-sizing: border-box; }
@@ -299,10 +299,10 @@
 <body>
     <aside class="sidebar">
         <div class="brand">
-            <div class="brand-icon">I</div>
+            <div class="brand-icon">R</div>
             <div>
-                <h2>Inventory Sales</h2>
-                <small>Management System</small>
+                <h2>Ranitha Stuff</h2>
+                <small>Skincare &amp; Beauty Store</small>
             </div>
         </div>
 
@@ -353,10 +353,10 @@
     <main class="main">
         <div class="topbar">
             <div>
-                <div class="eyebrow">Manajemen Inventory</div>
+                <div class="eyebrow">Ranitha Stuff</div>
                 <h1>Tambah Pengguna</h1>
                 <div class="muted">
-                    Tambahkan akun baru untuk mengakses sistem Inventory Sales.
+                    Tambahkan akun baru untuk mengakses sistem Ranitha Stuff.
                 </div>
             </div>
 
@@ -427,13 +427,25 @@
                         <label for="role">Role Pengguna</label>
                         <select id="role" name="role" required>
                             <option value="">Pilih role pengguna</option>
-                            <option value="admin" @selected(old('role') === 'admin')>
+
+                            <option
+                                value="admin"
+                                @selected(old('role') === 'admin')
+                            >
                                 Admin
                             </option>
-                            <option value="staff" @selected(old('role') === 'staff')>
+
+                            <option
+                                value="staff"
+                                @selected(old('role') === 'staff')
+                            >
                                 Staff
                             </option>
-                            <option value="user" @selected(old('role') === 'user')>
+
+                            <option
+                                value="user"
+                                @selected(old('role') === 'user')
+                            >
                                 User (Pembeli)
                             </option>
                         </select>

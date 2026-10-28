@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout Pesanan | Inventory Sales</title>
+    <title>Checkout Pesanan | Ranitha Stuff</title>
 
     <style>
         * { box-sizing: border-box; }
@@ -594,10 +594,10 @@
 <body>
     <aside class="sidebar">
         <div class="brand">
-            <div class="brand-icon">I</div>
+            <div class="brand-icon">R</div>
             <div>
-                <h2>Inventory Sales</h2>
-                <small>Customer Portal</small>
+                <h2>Ranitha Stuff</h2>
+                <small>Skincare &amp; Beauty Store</small>
             </div>
         </div>
 
@@ -629,7 +629,7 @@
     <main class="main">
         <header class="topbar">
             <div>
-                <div class="eyebrow">Inventory Sales</div>
+                <div class="eyebrow">Ranitha Stuff</div>
                 <h1>Checkout Pesanan</h1>
                 <div class="muted">
                     Periksa pesanan dan pilih metode pembayaran sebelum membuat pesanan.
@@ -764,18 +764,22 @@
 
                                 <select name="payment_method" id="payment_method" required>
                                     <option value="">-- Pilih Metode Pembayaran --</option>
+
                                     <option value="cod"
                                         {{ old('payment_method') === 'cod' ? 'selected' : '' }}>
                                         COD (Bayar Saat Diterima)
                                     </option>
+
                                     <option value="transfer"
                                         {{ old('payment_method') === 'transfer' ? 'selected' : '' }}>
                                         Transfer Bank
                                     </option>
+
                                     <option value="qris"
                                         {{ old('payment_method') === 'qris' ? 'selected' : '' }}>
                                         QRIS
                                     </option>
+
                                     <option value="ewallet"
                                         {{ old('payment_method') === 'ewallet' ? 'selected' : '' }}>
                                         E-Wallet
@@ -831,6 +835,7 @@
                                 <a href="{{ route('cart.index') }}" class="btn btn-gold">
                                     ← Kembali ke Keranjang
                                 </a>
+
                                 <button type="submit" class="btn btn-primary">
                                     Buat Pesanan →
                                 </button>
@@ -889,7 +894,7 @@
         </div>
 
         <footer class="footer">
-            Inventory Sales &copy; {{ date('Y') }}. Semua hak dilindungi.
+            Ranitha Stuff &copy; {{ date('Y') }}. Semua hak dilindungi.
         </footer>
     </main>
 

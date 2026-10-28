@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Kategori | Inventory Sales</title>
+    <title>Tambah Kategori | Ranitha Stuff</title>
 
     <style>
         * { box-sizing: border-box; }
@@ -248,6 +248,7 @@
             h1 { font-size: 25px; }
             .form-panel { padding: 17px; }
             .actions { flex-direction: column-reverse; }
+
             .actions .button,
             .actions .button-light { text-align: center; }
         }
@@ -257,10 +258,10 @@
 <body>
     <aside class="sidebar">
         <div class="brand">
-            <div class="brand-icon">I</div>
+            <div class="brand-icon">R</div>
             <div>
-                <h2>Inventory Sales</h2>
-                <small>Management System</small>
+                <h2>Ranitha Stuff</h2>
+                <small>Skincare &amp; Beauty Store</small>
             </div>
         </div>
 
@@ -310,10 +311,10 @@
 
     <main class="main">
         <div class="topbar">
-            <div class="eyebrow">Manajemen Inventory</div>
+            <div class="eyebrow">Ranitha Stuff</div>
             <h1>Tambah Kategori</h1>
             <div class="muted">
-                Tambahkan kategori baru agar produk lebih mudah dikelompokkan.
+                Tambahkan kategori baru agar produk skincare lebih mudah dikelompokkan.
             </div>
         </div>
 
@@ -332,7 +333,7 @@
             <div class="panel-heading">
                 <h3>Informasi Kategori</h3>
                 <div class="muted">
-                    Isi nama kategori yang ingin ditambahkan ke inventory.
+                    Isi nama kategori yang ingin ditambahkan ke Ranitha Stuff.
                 </div>
             </div>
 
@@ -347,14 +348,15 @@
                         type="text"
                         name="name"
                         value="{{ old('name') }}"
-                        placeholder="Contoh: Elektronik"
+                        placeholder="Contoh: Serum Wajah"
                         maxlength="255"
                         required
                         autofocus
                     >
 
                     <span class="help-text">
-                        Gunakan nama yang singkat dan mudah dikenali.
+                        Gunakan nama kategori yang singkat dan mudah dikenali,
+                        misalnya serum, toner, moisturizer, atau sunscreen.
                     </span>
 
                     @error('name')

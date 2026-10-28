@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Pemasok | Inventory Sales</title>
+    <title>Data Pemasok | Ranitha Stuff</title>
 
     <style>
         * { box-sizing: border-box; }
@@ -397,10 +397,10 @@
 <body>
     <aside class="sidebar">
         <div class="brand">
-            <div class="brand-icon">I</div>
+            <div class="brand-icon">R</div>
             <div>
-                <h2>Inventory Sales</h2>
-                <small>Management System</small>
+                <h2>Ranitha Stuff</h2>
+                <small>Skincare &amp; Beauty Store</small>
             </div>
         </div>
 
@@ -451,10 +451,10 @@
     <main class="main">
         <div class="topbar">
             <div>
-                <div class="eyebrow">Manajemen Inventory</div>
+                <div class="eyebrow">Ranitha Stuff</div>
                 <h1>Data Pemasok</h1>
                 <div class="muted">
-                    Kelola informasi pemasok yang menyediakan barang inventory.
+                    Kelola informasi pemasok produk skincare dan beauty.
                 </div>
             </div>
 
@@ -496,9 +496,9 @@
                     <h3>Kelola Data Pemasok</h3>
                     <p>
                         Data pemasok membantu kamu mencatat pihak yang menyediakan
-                        barang untuk inventory. Kamu bisa mencari data pemasok,
-                        menambahkan pemasok baru, memperbarui informasi, atau
-                        menghapus data yang tidak digunakan.
+                        produk skincare dan beauty untuk Ranitha Stuff. Kamu bisa
+                        mencari data pemasok, menambahkan pemasok baru, memperbarui
+                        informasi, atau menghapus data yang tidak digunakan.
                     </p>
                 </div>
             </div>
@@ -507,7 +507,7 @@
         <section class="table-panel">
             <div class="table-heading">
                 <h3>Daftar Pemasok</h3>
-                <span class="muted">Data pemasok inventory</span>
+                <span class="muted">Data pemasok Ranitha Stuff</span>
             </div>
 
             <form class="search-form" method="GET" action="{{ route('suppliers.index') }}">

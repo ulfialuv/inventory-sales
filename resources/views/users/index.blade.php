@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manajemen Pengguna | Inventory Sales</title>
+    <title>Manajemen Pengguna | Ranitha Stuff</title>
 
     <style>
         * { box-sizing: border-box; }
@@ -15,7 +15,7 @@
             color: #302526;
         }
 
-        /* SIDEBAR SAMA PERSIS DENGAN DATA PRODUK */
+        /* SIDEBAR */
         .sidebar {
             position: fixed;
             inset: 0 auto 0 0;
@@ -377,10 +377,10 @@
 
     <aside class="sidebar">
         <div class="brand">
-            <div class="brand-icon">I</div>
+            <div class="brand-icon">R</div>
             <div>
-                <h2>Inventory Sales</h2>
-                <small>Management System</small>
+                <h2>Ranitha Stuff</h2>
+                <small>Skincare &amp; Beauty Store</small>
             </div>
         </div>
 
@@ -432,10 +432,10 @@
 
         <div class="topbar">
             <div>
-                <div class="eyebrow">Manajemen Inventory</div>
+                <div class="eyebrow">Ranitha Stuff</div>
                 <h1>Manajemen Pengguna</h1>
                 <div class="muted">
-                    Kelola akun dan hak akses pengguna sistem.
+                    Kelola akun dan hak akses pengguna toko skincare dan beauty.
                 </div>
             </div>
 
@@ -557,7 +557,7 @@
         </section>
 
         <div class="footer">
-            Inventory Sales &copy; {{ date('Y') }}
+            Ranitha Stuff &copy; {{ date('Y') }}
         </div>
 
     </main>

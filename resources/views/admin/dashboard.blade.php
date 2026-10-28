@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin | Inventory Sales</title>
+    <title>Dashboard Admin | Ranitha Stuff</title>
 
     <style>
         * { box-sizing: border-box; }
@@ -598,10 +598,10 @@
 
     <aside class="sidebar">
         <div class="brand">
-            <div class="brand-icon">I</div>
+            <div class="brand-icon">R</div>
             <div>
-                <h2>Inventory Sales</h2>
-                <small>Management System</small>
+                <h2>Ranitha Stuff</h2>
+                <small>Skincare &amp; Beauty Store</small>
             </div>
         </div>
 
@@ -653,10 +653,10 @@
 
         <header class="topbar">
             <div>
-                <div class="eyebrow">Inventory Management System</div>
+                <div class="eyebrow">Ranitha Stuff</div>
                 <h1>Dashboard</h1>
                 <div class="muted">
-                    Ringkasan aktivitas dan kondisi persediaan barang.
+                    Ringkasan aktivitas toko dan kondisi persediaan produk.
                 </div>
             </div>
 
@@ -676,9 +676,9 @@
                 <div class="welcome-label">Selamat datang kembali</div>
                 <h2>Halo, {{ auth()->user()->name ?? 'Admin' }}!</h2>
                 <p>
-                    Selamat datang di Inventory Sales. Pantau data produk,
-                    kategori, pemasok, pembelian, dan penjualan melalui
-                    satu halaman dashboard.
+                    Selamat datang di Ranitha Stuff. Pantau data produk
+                    skincare dan kecantikan, kategori, pemasok, pembelian,
+                    serta penjualan melalui satu halaman dashboard.
                 </p>
             </div>
         </section>
@@ -686,7 +686,7 @@
         <div class="section-heading">
             <div>
                 <h2>Ringkasan Data</h2>
-                <p>Informasi terbaru dari sistem inventaris.</p>
+                <p>Informasi terbaru dari sistem persediaan toko.</p>
             </div>
         </div>
 
@@ -827,7 +827,7 @@
         <div class="section-heading">
             <div>
                 <h2>Akses Cepat</h2>
-                <p>Pilih menu untuk mengelola data sistem.</p>
+                <p>Pilih menu untuk mengelola data toko.</p>
             </div>
         </div>
 
@@ -868,7 +868,7 @@
         </section>
 
         <footer class="footer">
-            Inventory Sales &copy; {{ date('Y') }}
+            Ranitha Stuff &copy; {{ date('Y') }}
         </footer>
 
     </main>

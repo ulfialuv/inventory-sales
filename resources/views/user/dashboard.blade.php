@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Pelanggan | Inventory Sales</title>
+    <title>Dashboard Pelanggan | Ranitha Stuff</title>
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         :root {
             --maroon: #54232b;
@@ -37,13 +35,9 @@
             text-decoration: none;
         }
 
-        button,
-        input {
-            font: inherit;
-        }
+        button, input { font: inherit; }
 
         /* SIDEBAR */
-
         .sidebar {
             position: fixed;
             inset: 0 auto 0 0;
@@ -74,10 +68,7 @@
             font-weight: bold;
         }
 
-        .brand h2 {
-            margin: 0;
-            font-size: 17px;
-        }
+        .brand h2 { margin: 0; font-size: 17px; }
 
         .brand small {
             color: #d9c5c1;
@@ -132,12 +123,9 @@
             transition: background .2s;
         }
 
-        .logout button:hover {
-            background: var(--maroon-light);
-        }
+        .logout button:hover { background: var(--maroon-light); }
 
         /* KONTEN UTAMA */
-
         .main {
             max-width: 1600px;
             margin-left: 225px;
@@ -206,18 +194,13 @@
         }
 
         /* SAMBUTAN */
-
         .welcome {
             position: relative;
             overflow: hidden;
             padding: 28px;
             margin-bottom: 27px;
             border-radius: 16px;
-            background: linear-gradient(
-                120deg,
-                var(--maroon-dark),
-                #783b45
-            );
+            background: linear-gradient(120deg, var(--maroon-dark), #783b45);
             color: white;
         }
 
@@ -263,7 +246,6 @@
         }
 
         /* STATISTIK */
-
         .section-heading {
             display: flex;
             align-items: center;
@@ -338,7 +320,6 @@
         }
 
         /* NOTIFIKASI */
-
         .alert {
             padding: 13px 16px;
             margin-bottom: 16px;
@@ -364,7 +345,6 @@
         }
 
         /* PENCARIAN PRODUK */
-
         .search-panel {
             display: flex;
             align-items: center;
@@ -416,18 +396,14 @@
             color: white;
         }
 
-        .btn-primary:hover {
-            background: var(--maroon-light);
-        }
+        .btn-primary:hover { background: var(--maroon-light); }
 
         .btn-gold {
             background: var(--gold-light);
             color: var(--maroon);
         }
 
-        .btn-gold:hover {
-            background: #e9d7bc;
-        }
+        .btn-gold:hover { background: #e9d7bc; }
 
         .btn:disabled {
             background: #d9d2cb;
@@ -436,7 +412,6 @@
         }
 
         /* KATALOG PRODUK */
-
         .product-grid {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -531,9 +506,7 @@
             font-size: 11px;
         }
 
-        .product-info strong {
-            color: var(--text);
-        }
+        .product-info strong { color: var(--text); }
 
         .cart-form {
             display: flex;
@@ -550,13 +523,9 @@
             text-align: center;
         }
 
-        .quantity:focus {
-            border-color: var(--gold);
-        }
+        .quantity:focus { border-color: var(--gold); }
 
-        .cart-form .btn {
-            flex: 1;
-        }
+        .cart-form .btn { flex: 1; }
 
         .empty-state {
             padding: 45px 20px;
@@ -586,8 +555,41 @@
             font-size: 12px;
         }
 
-        /* FOOTER */
+        /* PAGINATION */
+        .pagination {
+            margin-top: 18px;
+        }
 
+        .pagination nav > div:first-child {
+            margin-bottom: 10px;
+            color: #8a7d79;
+            font-size: 12px;
+        }
+
+        .pagination nav > div:last-child {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .pagination a,
+        .pagination span {
+            display: inline-block;
+            padding: 7px 11px;
+            border: 1px solid #e4d8cc;
+            border-radius: 6px;
+            color: #54232b;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .pagination [aria-current="page"] span {
+            background: #6b3039;
+            color: white;
+            border-color: #6b3039;
+        }
+
+        /* FOOTER */
         .footer {
             padding: 25px 0 5px;
             color: #9a8d86;
@@ -596,7 +598,6 @@
         }
 
         /* RESPONSIVE */
-
         @media (max-width: 1200px) {
             .product-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -636,29 +637,17 @@
                 grid-template-columns: 1fr;
             }
 
-            .welcome {
-                padding: 22px;
-            }
+            .welcome { padding: 22px; }
 
-            .welcome h2 {
-                font-size: 23px;
-            }
+            .welcome h2 { font-size: 23px; }
 
-            h1 {
-                font-size: 26px;
-            }
+            h1 { font-size: 26px; }
 
-            .search-form {
-                flex-direction: column;
-            }
+            .search-form { flex-direction: column; }
 
-            .search-form .btn {
-                width: 100%;
-            }
+            .search-form .btn { width: 100%; }
 
-            .search-panel {
-                padding: 12px;
-            }
+            .search-panel { padding: 12px; }
         }
     </style>
 </head>
@@ -667,10 +656,10 @@
 
     <aside class="sidebar">
         <div class="brand">
-            <div class="brand-icon">I</div>
+            <div class="brand-icon">R</div>
             <div>
-                <h2>Inventory Sales</h2>
-                <small>Customer Portal</small>
+                <h2>Ranitha Stuff</h2>
+                <small>Skincare &amp; Beauty Store</small>
             </div>
         </div>
 
@@ -703,10 +692,10 @@
 
         <header class="topbar">
             <div>
-                <div class="eyebrow">Inventory Sales</div>
+                <div class="eyebrow">Ranitha Stuff</div>
                 <h1>Beranda</h1>
                 <div class="muted">
-                    Temukan produk yang kamu butuhkan dengan mudah.
+                    Temukan produk skincare yang kamu butuhkan dengan mudah.
                 </div>
             </div>
 
@@ -749,9 +738,9 @@
                 <div class="welcome-label">Selamat datang kembali</div>
                 <h2>Halo, {{ auth()->user()->name ?? 'Pelanggan' }}!</h2>
                 <p>
-                    Selamat berbelanja di Inventory Sales. Temukan berbagai
-                    produk yang tersedia, periksa harga dan stoknya, lalu
-                    masukkan produk pilihanmu ke keranjang.
+                    Selamat berbelanja di Ranitha Stuff. Temukan berbagai
+                    produk skincare pilihan, periksa harga dan stoknya, lalu
+                    masukkan produk favoritmu ke keranjang.
                 </p>
             </div>
         </section>
@@ -792,6 +781,7 @@
         <section class="search-panel">
             <form class="search-form" method="GET"
                   action="{{ route('user.dashboard') }}">
+
                 <input
                     type="text"
                     name="search"
@@ -903,6 +893,10 @@
 
             </section>
 
+            <div class="pagination">
+                {{ $products->withQueryString()->links() }}
+            </div>
+
         @else
 
             <section class="empty-state">
@@ -927,7 +921,7 @@
         @endif
 
         <footer class="footer">
-            Inventory Sales &copy; {{ date('Y') }}
+            Ranitha Stuff &copy; {{ date('Y') }}
         </footer>
 
     </main>

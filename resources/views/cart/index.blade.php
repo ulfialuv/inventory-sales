@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Keranjang Belanja | Inventory Sales</title>
+    <title>Keranjang Belanja | Ranitha Stuff</title>
 
     <style>
         * {
@@ -41,7 +41,7 @@
             font: inherit;
         }
 
-        /* SIDEBAR SAMA DENGAN DASHBOARD USER */
+        /* SIDEBAR */
 
         .sidebar {
             position: fixed;
@@ -702,14 +702,12 @@
 
 <body>
 
-    <!-- SIDEBAR SAMA DENGAN DASHBOARD USER -->
-
     <aside class="sidebar">
         <div class="brand">
-            <div class="brand-icon">I</div>
+            <div class="brand-icon">R</div>
             <div>
-                <h2>Inventory Sales</h2>
-                <small>Customer Portal</small>
+                <h2>Ranitha Stuff</h2>
+                <small>Skincare &amp; Beauty Store</small>
             </div>
         </div>
 
@@ -738,16 +736,14 @@
         </form>
     </aside>
 
-    <!-- KONTEN KANAN KHUSUS KERANJANG -->
-
     <main class="main">
 
         <header class="topbar">
             <div>
-                <div class="eyebrow">Inventory Sales</div>
+                <div class="eyebrow">Ranitha Stuff</div>
                 <h1>Keranjang Belanja</h1>
                 <div class="muted">
-                    Periksa produk pilihanmu sebelum melanjutkan ke checkout.
+                    Periksa produk skincare pilihanmu sebelum melanjutkan ke checkout.
                 </div>
             </div>
 
@@ -789,7 +785,7 @@
             <div>
                 <h2>Produk Pilihanmu</h2>
                 <p>
-                    Atur jumlah barang atau hapus produk yang tidak jadi dibeli.
+                    Atur jumlah produk atau hapus produk yang tidak jadi dibeli.
                 </p>
             </div>
 
@@ -804,8 +800,8 @@
                 <div class="empty-icon">🛍️</div>
                 <h2>Keranjangmu Masih Kosong</h2>
                 <p>
-                    Kamu belum menambahkan produk ke keranjang.<br>
-                    Yuk, cari produk yang kamu butuhkan!
+                    Kamu belum menambahkan produk skincare ke keranjang.<br>
+                    Yuk, temukan produk perawatan kulit favoritmu!
                 </p>
 
                 <a href="{{ route('user.dashboard') }}" class="btn btn-primary">
@@ -838,8 +834,6 @@
             </section>
 
             <div class="cart-layout">
-
-                <!-- TABEL PRODUK -->
 
                 <section class="card">
                     <div class="card-header">
@@ -931,8 +925,6 @@
                     </div>
                 </section>
 
-                <!-- RINGKASAN BELANJA -->
-
                 <aside class="card summary">
                     <div class="summary-body">
                         <h2>Ringkasan Belanja</h2>
@@ -975,7 +967,7 @@
         @endif
 
         <footer class="footer">
-            Inventory Sales &copy; {{ date('Y') }}. Semua hak dilindungi.
+            Ranitha Stuff &copy; {{ date('Y') }}. Semua hak dilindungi.
         </footer>
 
     </main>

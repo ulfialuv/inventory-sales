@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transaksi Penjualan | Inventory Sales</title>
+    <title>Transaksi Penjualan | Ranitha Stuff</title>
 
     <style>
         * { box-sizing: border-box; }
@@ -439,10 +439,10 @@
 <body>
     <aside class="sidebar">
         <div class="brand">
-            <div class="brand-icon">I</div>
+            <div class="brand-icon">R</div>
             <div>
-                <h2>Inventory Sales</h2>
-                <small>Management System</small>
+                <h2>Ranitha Stuff</h2>
+                <small>Skincare &amp; Beauty Store</small>
             </div>
         </div>
 
@@ -493,10 +493,10 @@
     <main class="main">
         <div class="topbar">
             <div>
-                <div class="eyebrow">Manajemen Inventory</div>
+                <div class="eyebrow">Ranitha Stuff</div>
                 <h1>Transaksi Penjualan</h1>
                 <div class="muted">
-                    Kelola transaksi, bukti pembayaran, dan status pesanan.
+                    Kelola transaksi, bukti pembayaran, dan status pesanan produk skincare dan kecantikan.
                 </div>
             </div>
 
@@ -568,7 +568,7 @@
         <section class="table-panel">
             <div class="table-heading">
                 <h3>Riwayat Transaksi</h3>
-                <span class="muted">Daftar penjualan barang</span>
+                <span class="muted">Daftar penjualan produk</span>
             </div>
 
             <form action="{{ route('sales.index') }}" method="GET" class="search-form">

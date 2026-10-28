@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Produk | Inventory Sales</title>
+    <title>Tambah Produk | Ranitha Stuff</title>
 
     <style>
         * { box-sizing: border-box; }
@@ -137,6 +137,11 @@
 
         .button:hover { background: #54232b; }
 
+        .button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
         .button-light {
             display: inline-block;
             padding: 11px 15px;
@@ -229,6 +234,10 @@
             border-color: #b99556;
         }
 
+        input.invalid {
+            border-color: #b42318;
+        }
+
         .hint {
             color: #8a7d79;
             font-size: 11px;
@@ -238,6 +247,18 @@
             color: #b42318;
             font-size: 12px;
         }
+
+        .price-warning {
+            display: none;
+            padding: 10px 12px;
+            border: 1px solid #f1c9c5;
+            border-radius: 8px;
+            background: #fff0ef;
+            color: #a13f38;
+            font-size: 12px;
+        }
+
+        .price-warning.show { display: block; }
 
         .form-actions {
             display: flex;
@@ -289,39 +310,47 @@
 <body>
     <aside class="sidebar">
         <div class="brand">
-            <div class="brand-icon">I</div>
+            <div class="brand-icon">R</div>
             <div>
-                <h2>Inventory Sales</h2>
-                <small>Management System</small>
+                <h2>Ranitha Stuff</h2>
+                <small>Skincare &amp; Beauty Store</small>
             </div>
         </div>
 
         <div class="nav-title">MENU UTAMA</div>
+
         <a href="{{ route('admin.dashboard') }}">
             <span class="nav-icon">⌂</span> Dashboard
         </a>
+
         <a href="{{ route('products.index') }}" class="active">
             <span class="nav-icon">▦</span> Data Produk
         </a>
+
         <a href="{{ route('categories.index') }}">
             <span class="nav-icon">▤</span> Kategori
         </a>
+
         <a href="{{ route('suppliers.index') }}">
             <span class="nav-icon">♙</span> Pemasok
         </a>
 
         <div class="nav-title">TRANSAKSI</div>
+
         <a href="{{ route('purchases.index') }}">
             <span class="nav-icon">↓</span> Pembelian
         </a>
+
         <a href="{{ route('sales.index') }}">
             <span class="nav-icon">↑</span> Penjualan
         </a>
 
         <div class="nav-title">LAINNYA</div>
+
         <a href="{{ route('users.index') }}">
             <span class="nav-icon">♧</span> Pengguna
         </a>
+
         <a href="{{ route('reports.index') }}">
             <span class="nav-icon">▥</span> Laporan
         </a>
@@ -335,10 +364,10 @@
     <main class="main">
         <div class="topbar">
             <div>
-                <div class="eyebrow">Manajemen Inventory</div>
+                <div class="eyebrow">Ranitha Stuff</div>
                 <h1>Tambah Produk</h1>
                 <div class="muted">
-                    Tambahkan produk baru ke dalam inventaris toko.
+                    Tambahkan produk skincare dan kecantikan baru ke dalam inventaris toko.
                 </div>
             </div>
 
@@ -364,7 +393,11 @@
                 <p>Isi semua informasi produk dengan benar sebelum disimpan.</p>
             </div>
 
-            <form action="{{ route('products.store') }}" method="POST">
+            <form
+                id="productForm"
+                action="{{ route('products.store') }}"
+                method="POST"
+            >
                 @csrf
 
                 <div class="form-grid">
@@ -375,7 +408,8 @@
                             type="text"
                             name="name"
                             value="{{ old('name') }}"
-                            placeholder="Contoh: Keyboard Wireless"
+                            placeholder="Contoh: Serum Wajah"
+                            maxlength="255"
                             required
                         >
                         @error('name')
@@ -390,7 +424,8 @@
                             type="text"
                             name="sku"
                             value="{{ old('sku') }}"
-                            placeholder="Contoh: PRD001"
+                            placeholder="Contoh: SKN001"
+                            maxlength="255"
                             required
                         >
                         @error('sku')
@@ -445,6 +480,12 @@
                             placeholder="0"
                             required
                         >
+                        <span class="hint">
+                            Harga jual harus lebih tinggi daripada harga beli.
+                        </span>
+                        <span id="priceWarning" class="price-warning">
+                            Harga jual harus lebih tinggi daripada harga beli. Produk tidak bisa disimpan dengan harga jual yang sama atau lebih rendah.
+                        </span>
                         @error('selling_price')
                             <span class="error">{{ $message }}</span>
                         @enderror
@@ -490,12 +531,85 @@
                     <a href="{{ route('products.index') }}" class="button-light">
                         Batal
                     </a>
-                    <button type="submit" class="button">
+
+                    <button id="submitButton" type="submit" class="button">
                         Simpan Produk
                     </button>
                 </div>
             </form>
         </section>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('productForm');
+            const nameInput = document.getElementById('name');
+            const skuInput = document.getElementById('sku');
+            const purchasePrice = document.getElementById('purchase_price');
+            const sellingPrice = document.getElementById('selling_price');
+            const priceWarning = document.getElementById('priceWarning');
+
+            function checkPrice() {
+                const beli = purchasePrice.value;
+                const jual = sellingPrice.value;
+
+                sellingPrice.setCustomValidity('');
+
+                if (beli === '' || jual === '') {
+                    priceWarning.classList.remove('show');
+                    sellingPrice.classList.remove('invalid');
+                    return true;
+                }
+
+                if (Number(jual) <= Number(beli)) {
+                    sellingPrice.setCustomValidity(
+                        'Harga jual harus lebih tinggi daripada harga beli.'
+                    );
+                    priceWarning.classList.add('show');
+                    sellingPrice.classList.add('invalid');
+                    return false;
+                }
+
+                priceWarning.classList.remove('show');
+                sellingPrice.classList.remove('invalid');
+                return true;
+            }
+
+            function checkNotBlank(input, label) {
+                input.setCustomValidity('');
+
+                if (input.value.trim() === '') {
+                    input.setCustomValidity(
+                        label + ' tidak boleh hanya berisi spasi.'
+                    );
+                    return false;
+                }
+
+                return true;
+            }
+
+            purchasePrice.addEventListener('input', checkPrice);
+            sellingPrice.addEventListener('input', checkPrice);
+
+            nameInput.addEventListener('input', function () {
+                checkNotBlank(nameInput, 'Nama produk');
+            });
+
+            skuInput.addEventListener('input', function () {
+                checkNotBlank(skuInput, 'Kode SKU');
+            });
+
+            form.addEventListener('submit', function (event) {
+                const priceValid = checkPrice();
+                const nameValid = checkNotBlank(nameInput, 'Nama produk');
+                const skuValid = checkNotBlank(skuInput, 'Kode SKU');
+
+                if (!priceValid || !nameValid || !skuValid || !form.checkValidity()) {
+                    event.preventDefault();
+                    form.reportValidity();
+                }
+            });
+        });
+    </script>
 </body>
 </html>

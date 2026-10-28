@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Produk Staff | Inventory Sales</title>
+    <title>Data Produk Staff | Ranitha Stuff</title>
 
     <style>
         * { box-sizing: border-box; }
@@ -335,15 +335,36 @@
         }
 
         .pagination {
-            margin-top: 20px;
+            margin-top: 18px;
+        }
+
+        .pagination nav > div:first-child {
+            margin-bottom: 10px;
+            color: #8a7d79;
             font-size: 12px;
         }
 
-        .pagination nav {
+        .pagination nav > div:last-child {
             display: flex;
-            justify-content: space-between;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 5px;
+        }
+
+        .pagination a,
+        .pagination span {
+            display: inline-block;
+            padding: 7px 11px;
+            border: 1px solid #e4d8cc;
+            border-radius: 6px;
+            color: #54232b;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .pagination [aria-current="page"] span {
+            background: #6b3039;
+            color: white;
+            border-color: #6b3039;
         }
 
         .alert-success {
@@ -353,6 +374,19 @@
             color: #276b37;
             border-radius: 8px;
             font-size: 13px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 30px !important;
+            color: #8a7d79;
+        }
+
+        .footer {
+            text-align: center;
+            color: #a1948c;
+            font-size: 11px;
+            padding: 25px 10px 10px;
         }
 
         @media (max-width: 1000px) {
@@ -391,6 +425,16 @@
             .summary-panel h2 { font-size: 21px; }
             .summary-icon { display: none; }
             .panel { padding: 15px; }
+
+            .filters input,
+            .filters select,
+            .filters .btn {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .filters input { flex: none; }
+            .filters .btn { text-align: center; }
         }
     </style>
 </head>
@@ -398,10 +442,10 @@
 <body>
     <aside class="sidebar">
         <div class="brand">
-            <div class="brand-icon">I</div>
+            <div class="brand-icon">R</div>
             <div>
-                <h2>Inventory Sales</h2>
-                <p>Management System</p>
+                <h2>Ranitha Stuff</h2>
+                <p>Skincare &amp; Beauty Store</p>
             </div>
         </div>
 
@@ -440,10 +484,10 @@
     <main class="main">
         <header class="topbar">
             <div>
-                <div class="eyebrow">Inventory Sales</div>
+                <div class="eyebrow">Ranitha Stuff</div>
                 <h1>Data Produk</h1>
                 <div class="muted">
-                    Informasi produk, harga jual, dan ketersediaan stok.
+                    Informasi produk skincare, harga jual, dan ketersediaan stok.
                 </div>
             </div>
 
@@ -461,9 +505,9 @@
         <section class="summary-panel">
             <div>
                 <div class="summary-label">INFORMASI PERSEDIAAN</div>
-                <h2>Daftar Produk</h2>
+                <h2>Daftar Produk Ranitha Stuff</h2>
                 <p>
-                    Periksa informasi produk dan stok barang yang tersedia.
+                    Periksa informasi produk skincare, harga, dan stok yang tersedia.
                     Gunakan pencarian serta filter untuk menemukan produk.
                 </p>
             </div>
@@ -477,7 +521,7 @@
         <div class="section-heading">
             <div>
                 <h2>Semua Produk</h2>
-                <p class="muted">Data produk yang tersedia di sistem.</p>
+                <p class="muted">Daftar produk yang tersedia di toko.</p>
             </div>
         </div>
 
@@ -519,6 +563,7 @@
                 </select>
 
                 <button class="btn" type="submit">Cari Produk</button>
+
                 <a href="{{ route('staff.products.index') }}" class="btn btn-gold">
                     Reset
                 </a>
@@ -561,8 +606,8 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" style="text-align:center;padding:30px">
-                                    Data produk belum tersedia.
+                                <td colspan="7" class="empty-state">
+                                    Produk tidak ditemukan. Coba ubah kata pencarian atau filter.
                                 </td>
                             </tr>
                         @endforelse
@@ -571,9 +616,13 @@
             </div>
 
             <div class="pagination">
-                {{ $products->links() }}
+                {{ $products->withQueryString()->links() }}
             </div>
         </section>
+
+        <footer class="footer">
+            Ranitha Stuff &copy; {{ date('Y') }}. Semua hak dilindungi.
+        </footer>
     </main>
 </body>
 </html>

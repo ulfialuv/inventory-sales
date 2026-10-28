@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Kategori | Inventory Sales</title>
+    <title>Data Kategori | Ranitha Stuff</title>
 
     <style>
         * { box-sizing: border-box; }
@@ -115,7 +115,10 @@
             font-weight: normal;
         }
 
-        .muted { color: #8a7d79; font-size: 12px; }
+        .muted {
+            color: #8a7d79;
+            font-size: 12px;
+        }
 
         .button {
             display: inline-block;
@@ -147,7 +150,8 @@
             margin-bottom: 20px;
         }
 
-        .summary-card, .table-panel {
+        .summary-card,
+        .table-panel {
             padding: 21px;
             border: 1px solid #ece2d7;
             border-radius: 13px;
@@ -268,12 +272,10 @@
             font-size: 11px;
         }
 
-        .actions {
-            display: flex;
-            gap: 7px;
-        }
+        .actions { display: flex; gap: 7px; }
 
-        .action-edit, .action-delete {
+        .action-edit,
+        .action-delete {
             padding: 7px 10px;
             border: 0;
             border-radius: 6px;
@@ -312,7 +314,8 @@
             gap: 5px;
         }
 
-        .pagination a, .pagination span {
+        .pagination a,
+        .pagination span {
             display: inline-block;
             padding: 7px 11px;
             border: 1px solid #e4d8cc;
@@ -329,15 +332,29 @@
         }
 
         @media (max-width: 800px) {
-            .sidebar { position: static; width: 100%; height: auto; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+            }
+
             .sidebar .nav-title { margin-top: 15px; }
             .logout { position: static; margin-top: 15px; }
-            .main { margin-left: 0; padding: 20px; }
+
+            .main {
+                margin-left: 0;
+                padding: 20px;
+            }
+
             .summary { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 500px) {
-            .topbar { align-items: flex-start; flex-direction: column; }
+            .topbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
             .table-panel { padding: 13px; }
             .search-form { flex-direction: column; }
         }
@@ -347,39 +364,47 @@
 <body>
     <aside class="sidebar">
         <div class="brand">
-            <div class="brand-icon">I</div>
+            <div class="brand-icon">R</div>
             <div>
-                <h2>Inventory Sales</h2>
-                <small>Management System</small>
+                <h2>Ranitha Stuff</h2>
+                <small>Skincare &amp; Beauty Store</small>
             </div>
         </div>
 
         <div class="nav-title">MENU UTAMA</div>
+
         <a href="{{ route('admin.dashboard') }}">
             <span class="nav-icon">⌂</span> Dashboard
         </a>
+
         <a href="{{ route('products.index') }}">
             <span class="nav-icon">▦</span> Data Produk
         </a>
+
         <a href="{{ route('categories.index') }}" class="active">
             <span class="nav-icon">▤</span> Kategori
         </a>
+
         <a href="{{ route('suppliers.index') }}">
             <span class="nav-icon">♙</span> Pemasok
         </a>
 
         <div class="nav-title">TRANSAKSI</div>
+
         <a href="{{ route('purchases.index') }}">
             <span class="nav-icon">↓</span> Pembelian
         </a>
+
         <a href="{{ route('sales.index') }}">
             <span class="nav-icon">↑</span> Penjualan
         </a>
 
         <div class="nav-title">LAINNYA</div>
+
         <a href="{{ route('users.index') }}">
             <span class="nav-icon">♧</span> Pengguna
         </a>
+
         <a href="{{ route('reports.index') }}">
             <span class="nav-icon">▥</span> Laporan
         </a>
@@ -393,10 +418,10 @@
     <main class="main">
         <div class="topbar">
             <div>
-                <div class="eyebrow">Manajemen Inventory</div>
+                <div class="eyebrow">Ranitha Stuff</div>
                 <h1>Data Kategori</h1>
                 <div class="muted">
-                    Kelompokkan produk agar data inventory lebih teratur.
+                    Kelompokkan produk skincare dan kecantikan agar lebih teratur.
                 </div>
             </div>
 
@@ -421,8 +446,9 @@
                     <h3>Kelola Kategori Produk</h3>
                     <p>
                         Gunakan kategori untuk mempermudah pengelompokan dan
-                        pencarian produk. Kamu bisa menambah kategori baru,
-                        memperbarui nama, atau menghapus kategori yang tidak digunakan.
+                        pencarian produk skincare. Kamu bisa menambah kategori
+                        baru, memperbarui nama, atau menghapus kategori yang
+                        tidak digunakan.
                     </p>
                 </div>
             </div>
@@ -431,7 +457,7 @@
         <section class="table-panel">
             <div class="table-heading">
                 <h3>Daftar Kategori</h3>
-                <span class="muted">Data kategori produk</span>
+                <span class="muted">Kategori produk Ranitha Stuff</span>
             </div>
 
             <form class="search-form" method="GET" action="{{ route('categories.index') }}">
@@ -441,9 +467,14 @@
                     value="{{ request('search') }}"
                     placeholder="Cari nama kategori..."
                 >
+
                 <button class="button" type="submit">Cari</button>
-                <a href="{{ route('categories.index') }}" class="button-light"
-                   style="display:inline-block;padding:11px 14px;border:1px solid #e4d8cc;border-radius:8px;background:#f7f0e7;color:#54232b;text-decoration:none;text-align:center;font-size:12px;">
+
+                <a
+                    href="{{ route('categories.index') }}"
+                    class="button-light"
+                    style="display:inline-block;padding:11px 14px;border:1px solid #e4d8cc;border-radius:8px;background:#f7f0e7;color:#54232b;text-decoration:none;text-align:center;font-size:12px;"
+                >
                     Reset
                 </a>
             </form>
@@ -454,7 +485,6 @@
                         <tr>
                             <th>No.</th>
                             <th>Nama Kategori</th>
-                            <th>Deskripsi</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -474,10 +504,6 @@
                                 </td>
 
                                 <td>
-                                    {{ $category->description ?: 'Tidak ada deskripsi' }}
-                                </td>
-
-                                <td>
                                     <div class="actions">
                                         <a
                                             class="action-edit"
@@ -493,6 +519,7 @@
                                         >
                                             @csrf
                                             @method('DELETE')
+
                                             <button class="action-delete" type="submit">
                                                 Hapus
                                             </button>
@@ -502,7 +529,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="empty">
+                                <td colspan="3" class="empty">
                                     Belum ada kategori atau kategori tidak ditemukan.
                                 </td>
                             </tr>

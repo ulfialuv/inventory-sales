@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Inventory Sales</title>
+    <title>Login | Ranitha Stuff</title>
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
@@ -59,12 +57,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-family: Georgia, serif;
+            font-size: 25px;
             font-weight: bold;
+            flex-shrink: 0;
         }
 
         .brand-name {
-            font-size: 20px;
+            font-family: Georgia, serif;
+            font-size: 22px;
             font-weight: 700;
             margin: 0;
         }
@@ -75,9 +76,7 @@
             margin-top: 4px;
         }
 
-        .brand-content {
-            margin: 45px 0;
-        }
+        .brand-content { margin: 45px 0; }
 
         .brand-label {
             color: #d9b978;
@@ -115,9 +114,7 @@
             justify-content: center;
         }
 
-        .form-heading {
-            margin-bottom: 30px;
-        }
+        .form-heading { margin-bottom: 30px; }
 
         .eyebrow {
             color: #a17b40;
@@ -163,9 +160,7 @@
             border: 1px solid #b9e1c4;
         }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+        .form-group { margin-bottom: 20px; }
 
         .form-group label {
             display: block;
@@ -192,9 +187,7 @@
             box-shadow: 0 0 0 3px rgba(185, 149, 86, 0.15);
         }
 
-        .form-group input::placeholder {
-            color: #b0a49d;
-        }
+        .form-group input::placeholder { color: #b0a49d; }
 
         .remember-row {
             display: flex;
@@ -211,6 +204,8 @@
             height: 15px;
         }
 
+        .remember-row label { cursor: pointer; }
+
         .btn-login {
             width: 100%;
             padding: 14px;
@@ -224,16 +219,32 @@
             transition: background 0.2s;
         }
 
-        .btn-login:hover {
-            background: #54232b;
-        }
+        .btn-login:hover { background: #54232b; }
 
         .form-note {
             text-align: center;
             font-size: 11px;
             color: #9a8b84;
-            margin-top: 24px;
+            margin-top: 20px;
             line-height: 1.6;
+        }
+
+        .register-note {
+            text-align: center;
+            font-size: 13px;
+            color: #766966;
+            margin-top: 18px;
+        }
+
+        .register-note a {
+            color: #6b3039;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .register-note a:hover {
+            color: #a17b40;
+            text-decoration: underline;
         }
 
         .field-error {
@@ -243,9 +254,7 @@
         }
 
         @media (max-width: 700px) {
-            body {
-                padding: 16px;
-            }
+            body { padding: 16px; }
 
             .login-wrapper {
                 max-width: 430px;
@@ -253,33 +262,19 @@
                 grid-template-columns: 1fr;
             }
 
-            .login-brand {
-                padding: 25px;
-            }
+            .login-brand { padding: 25px; }
 
-            .brand-content {
-                margin: 28px 0 18px;
-            }
+            .brand-content { margin: 28px 0 18px; }
 
-            .brand-content h2 {
-                font-size: 27px;
-            }
+            .brand-content h2 { font-size: 27px; }
 
-            .brand-content p {
-                font-size: 13px;
-            }
+            .brand-content p { font-size: 13px; }
 
-            .brand-footer {
-                display: none;
-            }
+            .brand-footer { display: none; }
 
-            .login-form-section {
-                padding: 30px 25px;
-            }
+            .login-form-section { padding: 30px 25px; }
 
-            .form-heading h1 {
-                font-size: 27px;
-            }
+            .form-heading h1 { font-size: 27px; }
         }
     </style>
 </head>
@@ -289,27 +284,28 @@
 
         <div class="login-brand">
             <div class="brand-header">
-                <div class="brand-icon">I</div>
+                <div class="brand-icon">R</div>
 
                 <div>
-                    <h2 class="brand-name">Inventory Sales</h2>
-                    <div class="brand-subtitle">Management System</div>
+                    <h2 class="brand-name">Ranitha Stuff</h2>
+                    <div class="brand-subtitle">Skincare & Beauty Store</div>
                 </div>
             </div>
 
             <div class="brand-content">
-                <div class="brand-label">Sistem Informasi</div>
+                <div class="brand-label">Welcome to Ranitha Stuff</div>
 
-                <h2>Kelola Persediaan dan Penjualan dengan Lebih Mudah.</h2>
+                <h2>Rawat Kulitmu, Pancarkan Cantikmu.</h2>
 
                 <p>
-                    Satu tempat untuk mengelola produk, kategori, pemasok,
-                    serta transaksi penjualan secara lebih teratur.
+                    Temukan berbagai produk skincare pilihan untuk menemani
+                    perawatan kulitmu. Kelola produk, kategori, stok,
+                    dan transaksi dengan lebih mudah dalam satu sistem.
                 </p>
             </div>
 
             <div class="brand-footer">
-                Inventory Sales Management System
+                Ranitha Stuff &copy; {{ date('Y') }} · Skincare & Beauty Store
             </div>
         </div>
 
@@ -317,7 +313,7 @@
             <div class="form-heading">
                 <div class="eyebrow">Selamat Datang</div>
                 <h1>Login Akun</h1>
-                <p>Masukkan email dan kata sandi untuk melanjutkan.</p>
+                <p>Silakan masuk untuk melanjutkan ke Ranitha Stuff.</p>
             </div>
 
             @if (session('status'))
@@ -337,7 +333,6 @@
 
                 <div class="form-group">
                     <label for="email">Email</label>
-
                     <input
                         id="email"
                         type="email"
@@ -356,7 +351,6 @@
 
                 <div class="form-group">
                     <label for="password">Kata Sandi</label>
-
                     <input
                         id="password"
                         type="password"
@@ -372,18 +366,19 @@
                 </div>
 
                 <div class="remember-row">
-                    <input
-                        id="remember"
-                        type="checkbox"
-                        name="remember"
-                    >
+                    <input id="remember" type="checkbox" name="remember">
                     <label for="remember">Ingat saya</label>
                 </div>
 
                 <button type="submit" class="btn-login">
-                    Masuk ke Sistem
+                    Masuk ke Ranitha Stuff
                 </button>
             </form>
+
+            <div class="register-note">
+                Belum punya akun?
+                <a href="{{ route('register') }}">Daftar sekarang</a>
+            </div>
 
             <div class="form-note">
                 Pastikan email dan kata sandi yang dimasukkan sudah benar.
